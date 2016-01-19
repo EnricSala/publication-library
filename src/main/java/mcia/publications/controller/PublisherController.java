@@ -24,7 +24,7 @@ public class PublisherController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Observable<List<Publisher>> getAll() {
-		log.info("GET all publishers");
+		log.info("GET: all publishers");
 		return Observable.from(publisherRepository.findAll()).toList();
 	}
 
@@ -50,7 +50,7 @@ public class PublisherController {
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public Publisher put(@RequestBody Publisher publisher) {
 		Publisher saved = null;
-		log.info("POST: {}", publisher);
+		log.info("PUT: {}", publisher);
 		if (publisher.getId() != null) {
 			if (publisherRepository.exists(publisher.getId())) {
 				saved = publisherRepository.save(publisher);
