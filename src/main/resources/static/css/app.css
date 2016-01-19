@@ -1,0 +1,44 @@
+#app-logo {
+  width: 40px;
+  height: 40px;
+  margin: -10px auto auto -8px;
+  padding: 0;
+  display: inline-block;
+  background-repeat: no-repeat no-repeat;
+  pointer-events: none;
+}
+.author-search md-input-container {
+  margin: 18px 18px -10px 14px;
+}
+.author-list p {
+  line-height: 24px;
+}
+.selected-author {
+  background-color: rgba(63, 81, 181, 0.2);
+}
+#search-form .md-errors-spacer {
+  /* Remove the space reserved for errors */
+  min-height: 0px
+}
+.publication md-card-title {
+  padding: 0px 16px;
+}
+.publication p, span {
+  text-align: justify;
+  text-justify: inter-word;
+}
+.publication-author img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.md-dialog-content md-input-container {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+.publisher-selector {
+  /* Force the size and margin of the publisher
+   in the Publication dialog */
+  height: 54px;
+  margin-top: 16px;
+}

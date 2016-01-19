@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>MCIA Publications</title>
+	<link href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css" rel="stylesheet"></link>
+	<link href="/static/css/app.css" rel="stylesheet"></link>
+</head>
+
+<body ng-app="app" ng-controller="MainController" layout="column" ng-cloak="">
+
+	<!-- Application title -->
+	<md-toolbar layout="row">
+		<div class="md-toolbar-tools" flex="">
+			<md-button class="md-icon-button" style="border-radius: 0%">
+				<img src="/static/img/mcia_logo.png" id="app-logo" />
+			</md-button>
+			<h2 flex="auto">MCIA Publication Library</h2>
+		</div>
+	</md-toolbar>
+	<md-fab-speed-dial md-direction="down" md-open="isMenuOpen" class="md-scale md-fab-top-right" ng-mouseleave="isMenuOpen=false">
+		<md-fab-trigger>
+			<md-button aria-label="menu" class="md-fab md-warn">
+				<md-icon md-svg-src="/static/img/icon/plus.svg" aria-label="menu"></md-icon>
+			</md-button>
+		</md-fab-trigger>
+		<md-fab-actions>
+			<div ng-repeat="(idx, item) in items">
+				<md-tooltip md-direction="left">
+					{{item.name}}
+				</md-tooltip>
+				<md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini" ng-click="handleMenuClick($event, idx)">
+					<md-icon md-svg-src="{{item.icon}}" aria-label="{{item.name}}" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
+				</md-button>
+			</div>
+		</md-fab-actions>
+	</md-fab-speed-dial>
+
+	<!-- Main content -->
+	<div flex="" layout="row">
+
+		<!-- Sidenav author filter-->
+		<md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
+			<md-content class="md-padding" layout="column">
+				<form name="authorForm">
+					<div class="author-search" layout="row">
+						<md-input-container flex="80" class="md-block">
+							<label>Author</label>
+							<input ng-model="query.author"></input>
+						</md-input-container>
+						<md-button ng-click="clearAuthor()">X</md-button>
+					</div>
+				</form>
+
+				<md-list class="author-list">
+					<md-list-item ng-repeat="author in authors | filter:{fullname: query.author} | orderBy:'fullname'" ng-click="selectAuthor(author)" ng-class="author.id===selectedAuthor.id ? 'selected-author' : ''">
+						<img alt="{{ author.fullname }}" ng-src="{{ author.photo }}" class="md-avatar" />
+						<p>{{ author.fullname }}</p>
+					</md-list-item>
+				</md-list>
+			</md-content>
+		</md-sidenav>
+
+		<!-- Publications view -->
+		<md-content id="content" flex="" class="md-padding" style="background-color: #f5f5f5">
+
+			<!-- Search form -->
+			<md-content id="search-form" layout-padding="" class="md-whiteframe-z1" style="margin-bottom: 16px">
+				<form name="searchForm">
+					<div layout="row">
+						<md-input-container class="md-block" flex="66">
+							<label>Search</label>
+							<input ng-model="query.text" ng-change="searchPublications()" ng-model-options="{debounce: 500}"></input>
+						</md-input-container>
+						<md-input-container class="md-block" flex="33">
+							<label>Type</label>
+							<md-select ng-model="query.type">
+								<md-option ng-repeat="type in publicationTypes" value="{{ type }}">{{ type }}</md-option>
+							</md-select>
+						</md-input-container>
+					</div>
+				</form>
+			</md-content>
+
+			<!-- Publication cards -->
+			<div flex="" layout="row" layout-wrap="" layout-align="center start">
+				<md-card flex="45" flex-sm="95" flex-md="95" ng-repeat="pub in publications | filter:filterPublications | orderBy:['-score','-publishDate']" class="publication">
+					<md-card-header>
+						<md-card-avatar class="publication-author">
+							<img ng-src="{{ pub.authors[0].photo }}" class="md-avatar" alt="{{ pub.authors[0].fullname }}" ng-click="showAuthorDialog($event, pub.authors[0])" />
+						</md-card-avatar>
+						<md-card-header-text>
+							<span class="md-title">{{ pub.authors[0].fullname }}</span>
+							<span class="md-subhead">{{ getSecondaryAuthors(pub.authors) }}</span>
+						</md-card-header-text>
+						<md-button class="md-icon-button" aria-label="Edit" ng-click="showPublicationDialog($event, pub)">
+							<md-icon md-svg-icon="static/img/icon/pencil.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
+						</md-button>
+					</md-card-header>
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-title">{{ pub.title }}</span>
+							<span class="md-subhead">
+								{{ pub.publisher.acronym }} ({{ pub.publishDate | date:'yyyy-MM' }}) - {{ pub.publisher.fullname | limitTo:55 }}{{ pub.publisher.fullname.length > 55 ? '...' : '' }}
+							</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+						<p class="md-body-1">
+							{{ pub.summary | limitTo:475 }}{{ pub.summary.length > 475 ? '...' : '' }}
+						</p>
+					</md-card-content>
+				</md-card>
+			</div>
+
+		</md-content>
+	</div>
+
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+	<!-- Angular Material Library -->
+	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+	<!-- App -->
+	<script type="text/javascript" src="/static/js/app.js"></script>
+	<script type="text/javascript" src="/static/js/service/rest.js"></script>
+
+	<!-- Controllers -->
+	<script type="text/javascript" src="/static/js/controller/mainController.js"></script>
+	<script type="text/javascript" src="/static/js/controller/publicationFormController.js"></script>
+	<script type="text/javascript" src="/static/js/controller/authorFormController.js"></script>
+	<script type="text/javascript" src="/static/js/controller/publisherFormController.js"></script>
+
+</body>
+
+</html>
