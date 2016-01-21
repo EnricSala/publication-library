@@ -91,13 +91,13 @@ function MainController($scope, $mdDialog, Publications, Authors, Publishers) {
    */
   $scope.items = [{
     name: "New Publication",
-    icon: "/static/img/icon/publication-plus.svg"
+    icon: "/img/icon/publication-plus.svg"
   }, {
     name: "New Author",
-    icon: "/static/img/icon/author-plus.svg"
+    icon: "/img/icon/author-plus.svg"
   }, {
     name: "New Publisher",
-    icon: "/static/img/icon/folder-plus.svg"
+    icon: "/img/icon/folder-plus.svg"
   }];
   $scope.handleMenuClick = function(ev, idx) {
     switch (idx) {
@@ -167,7 +167,7 @@ function MainController($scope, $mdDialog, Publications, Authors, Publishers) {
   function handleResourceDialog(ev, item, controller, template, newItemCallback) {
     $mdDialog.show({
       controller: controller,
-      templateUrl: '/static/view/' + template,
+      templateUrl: '/view/' + template,
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose: false,

@@ -12,14 +12,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/actuator/**").authenticated()
-				.antMatchers(HttpMethod.GET).permitAll()
+				.antMatchers(HttpMethod.GET, "/", "/index.html").permitAll()
+				.antMatchers(HttpMethod.GET, "/img/**", "/view/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
 				.permitAll()
 				.and()
-			.httpBasic();
+			.httpBasic()
+				.and()
+			.csrf()
+				.disable();
 	}
 
 }
