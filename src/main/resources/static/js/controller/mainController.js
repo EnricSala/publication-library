@@ -6,7 +6,7 @@ angular
   .module('app.controllers')
   .controller('MainController', MainController);
 
-function MainController($scope, $mdDialog, Publications, Authors, Publishers) {
+function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishers) {
   $scope.authors = Authors.query();
   $scope.publishers = Publishers.query();
   $scope.publications = Publications.query();
@@ -18,6 +18,14 @@ function MainController($scope, $mdDialog, Publications, Authors, Publishers) {
   };
   $scope.selectedAuthor = {};
   $scope.isMenuOpen = false;
+
+  /*
+   * Check authentication state
+   */
+  $scope.authenticated = false;
+  Auth.login(null, function(authenticated) {
+    $scope.authenticated = authenticated;
+  });
 
   /*
    * Search Author
@@ -185,6 +193,35 @@ function MainController($scope, $mdDialog, Publications, Authors, Publishers) {
       }
     }, function() {
       console.log('Clicked Discard');
+    });
+  }
+
+  /*
+   * Show login dialog
+   */
+  $scope.showLoginDialog = function(ev) {
+    $mdDialog.show({
+      controller: 'LoginFormController',
+      templateUrl: '/view/loginDialog.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      fullscreen: false
+    }).then(function() {
+      console.log('Clicked login, authenticated: yes');
+      $scope.authenticated = true;
+    }, function() {
+      console.log('Clicked cancel login');
+    });
+  };
+
+  /*
+   * Handle logout
+   */
+  $scope.logout = function() {
+    Auth.logout(function(authenticated) {
+      console.log('Clicked logout, authenticated: no');
+      $scope.authenticated = authenticated;
     });
   }
 
