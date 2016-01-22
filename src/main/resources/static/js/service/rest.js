@@ -4,24 +4,24 @@
 
 angular
   .module('app.services')
-  .factory('Publications', ['$resource', function($resource) {
+  .factory('Publications', function($resource) {
     return $resource('/api/publications/:id', {}, {
       update: {
         method: 'PUT'
       }
     });
-  }])
-  .factory('Authors', ['$resource', function($resource) {
+  })
+  .factory('Authors', function($resource) {
     return $resource('/api/authors/:id', {}, {
       update: {
         method: 'PUT'
       }
     });
-  }])
-  .factory('Publishers', ['$resource', function($resource) {
+  })
+  .factory('Publishers', function($resource) {
     return $resource('/api/publishers/:id', {}, {
       update: {
         method: 'PUT'
       }
     });
-  }]);
+  });
