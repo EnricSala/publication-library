@@ -89,7 +89,7 @@
 
 			<!-- Publication cards -->
 			<div flex="" layout="row" layout-wrap="" layout-align="center start">
-				<md-card flex="45" flex-sm="95" flex-md="95" ng-repeat="pub in publications | filter:filterPublications | orderBy:['-score','-publishDate']" class="publication">
+				<md-card flex="95" flex-gt-lg="45" ng-repeat="pub in publications | filter:filterPublications | orderBy:['-score','-publishDate']" class="publication">
 					<md-card-header>
 						<md-card-avatar class="publication-author">
 							<img ng-src="{{ pub.authors[0].photo }}" class="md-avatar" alt="{{ pub.authors[0].fullname }}" ng-click="showAuthorDialog($event, pub.authors[0])" />
