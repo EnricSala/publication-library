@@ -8,10 +8,10 @@ angular
 
 function publicationFormController($scope, $mdDialog, Authors, Publishers, init, readonly) {
   $scope.readonly = readonly;
-  $scope.publication = init || {
+  $scope.initial = init || {
     authors: []
   };
-  $scope.initial = angular.copy($scope.publication);
+  $scope.publication = angular.copy($scope.initial);
 
   /*
    * Load authors and publishers
@@ -28,10 +28,10 @@ function publicationFormController($scope, $mdDialog, Authors, Publishers, init,
    * Save and discard functions
    */
   $scope.save = function(publication) {
-    $mdDialog.hide(publication);
+    angular.copy($scope.publication, $scope.initial);
+    $mdDialog.hide($scope.initial);
   }
   $scope.discard = function() {
-    angular.copy($scope.initial, $scope.publication);
     $mdDialog.cancel();
   }
 

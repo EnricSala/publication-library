@@ -8,17 +8,17 @@ angular
 
 function authorFormController($scope, $mdDialog, init, readonly) {
   $scope.readonly = readonly;
-  $scope.author = init || {};
-  $scope.initial = angular.copy($scope.author);
+  $scope.initial = init || {};
+  $scope.author = angular.copy($scope.initial);
 
   /*
    * Save and discard functions
    */
   $scope.save = function(author) {
-    $mdDialog.hide(author);
+    angular.copy($scope.author, $scope.initial);
+    $mdDialog.hide($scope.initial);
   }
   $scope.discard = function() {
-    angular.copy($scope.initial, $scope.author);
     $mdDialog.cancel();
   }
 

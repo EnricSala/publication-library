@@ -8,17 +8,17 @@ angular
 
 function publisherFormController($scope, $mdDialog, init, readonly) {
   $scope.readonly = readonly;
-  $scope.publisher = init || {};
-  $scope.initial = angular.copy($scope.publisher);
+  $scope.initial = init || {};
+  $scope.publisher = angular.copy($scope.initial);
 
   /*
    * Save and discard functions
    */
   $scope.save = function(publisher) {
-    $mdDialog.hide(publisher);
+    angular.copy($scope.publisher, $scope.initial);
+    $mdDialog.hide($scope.initial);
   }
   $scope.discard = function() {
-    angular.copy($scope.initial, $scope.publisher);
     $mdDialog.cancel();
   }
 
