@@ -1,4 +1,4 @@
-<md-dialog ng-cloak flex="70" flex-sm="100">
+<md-dialog ng-cloak flex="100" flex-gt-md="70">
   <form id="publicationForm">
 
     <md-toolbar>
@@ -55,7 +55,19 @@
         <!-- Abstract textarea -->
         <md-input-container class="md-block">
           <label>Abstract</label>
-          <textarea ng-model="publication.summary" md-maxlength="2000" rows="10"></textarea>
+          <textarea ng-model="publication.summary" md-maxlength="2000" rows="4"></textarea>
+        </md-input-container>
+
+        <!-- URL field -->
+        <md-input-container class="md-block">
+          <label>Website</label>
+          <input ng-model="publication.url">
+        </md-input-container>
+
+        <!-- Citation textarea -->
+        <md-input-container class="md-block">
+          <label>Citation</label>
+          <textarea ng-model="publication.citation" md-maxlength="500" rows="2"></textarea>
         </md-input-container>
       </div>
     </md-dialog-content>
