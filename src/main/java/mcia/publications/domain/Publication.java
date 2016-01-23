@@ -29,7 +29,7 @@ public class Publication {
 
 	private String url;
 
-	private String citation;
+	private String reference;
 
 	private @TextScore float score;
 
