@@ -17,6 +17,7 @@
           <label>Password</label>
           <input ng-model="credentials.password" type="password">
         </md-input-container>
+        <p ng-show="error" style="color: red;">Login failed. Try again.</p>
       </div>
     </md-dialog-content>
 
