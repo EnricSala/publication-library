@@ -6,7 +6,8 @@ angular
   .module('app.controllers')
   .controller('PublisherFormController', publisherFormController);
 
-function publisherFormController($scope, $mdDialog, init) {
+function publisherFormController($scope, $mdDialog, init, readonly) {
+  $scope.readonly = readonly;
   $scope.publisher = init || {};
   $scope.initial = angular.copy($scope.publisher);
 

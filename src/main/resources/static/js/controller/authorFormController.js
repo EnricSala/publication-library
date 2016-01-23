@@ -6,7 +6,8 @@ angular
   .module('app.controllers')
   .controller('AuthorFormController', authorFormController);
 
-function authorFormController($scope, $mdDialog, init) {
+function authorFormController($scope, $mdDialog, init, readonly) {
+  $scope.readonly = readonly;
   $scope.author = init || {};
   $scope.initial = angular.copy($scope.author);
 

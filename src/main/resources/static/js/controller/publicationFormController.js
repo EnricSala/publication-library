@@ -6,7 +6,8 @@ angular
   .module('app.controllers')
   .controller('PublicationFormController', publicationFormController);
 
-function publicationFormController($scope, $mdDialog, Authors, Publishers, init) {
+function publicationFormController($scope, $mdDialog, Authors, Publishers, init, readonly) {
+  $scope.readonly = readonly;
   $scope.publication = init || {
     authors: []
   };

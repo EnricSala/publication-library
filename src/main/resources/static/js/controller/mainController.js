@@ -181,7 +181,8 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       clickOutsideToClose: false,
       fullscreen: true,
       locals: {
-        init: item
+        init: item,
+        readonly: !$scope.authenticated
       }
     }).then(function(item) {
       if (item.id) {
