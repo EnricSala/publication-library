@@ -3,7 +3,7 @@
 
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{ publisher.id ? 'Edit' : 'Add a new'}}
+        <h2>{{ readonly ? 'View' : (publisher.id ? 'Edit' : 'Add a new')}}
           publisher</h2>
       </div>
     </md-toolbar>
@@ -41,8 +41,9 @@
     <!-- Save or discard buttons -->
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="discard()">Discard</md-button>
-      <md-button ng-click="save(publisher)" class="md-primary" style="margin-right:20px;">Save</md-button>
+      <md-button ng-click="discard()">Cancel</md-button>
+      <md-button ng-click="save(publisher)" ng-hide="readonly" class="md-primary">Save</md-button>
+      <span flex="5"></span>
     </md-dialog-actions>
 
   </form>
