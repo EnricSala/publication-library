@@ -12,37 +12,14 @@ function publicationFormController($scope, $mdDialog, Authors, Publishers, init,
     authors: []
   };
   $scope.publication = angular.copy($scope.initial);
+  $scope.allAuthors = Authors.query();
+  $scope.allPublishers = Publishers.query();
 
   /*
    * Initialize date field if present
    */
   if ($scope.publication.publishDate) {
     $scope.publishDate = new Date($scope.publication.publishDate);
-  }
-
-  /*
-   * Load authors and publishers
-   */
-  Authors.query({}, function(list) {
-    $scope.allAuthors = list;
-  });
-  Publishers.query({}, function(list) {
-    $scope.allPublishers = list;
-  });
-
-
-  /*
-   * Save and discard functions
-   */
-  $scope.save = function(publication) {
-    if ($scope.publishDate) {
-      $scope.publication.publishDate = $scope.publishDate.getTime();
-    }
-    angular.copy($scope.publication, $scope.initial);
-    $mdDialog.hide($scope.initial);
-  }
-  $scope.discard = function() {
-    $mdDialog.cancel();
   }
 
   /**
@@ -58,6 +35,20 @@ function publicationFormController($scope, $mdDialog, Authors, Publishers, init,
       var lowername = angular.lowercase(contact.fullname);
       return (lowername.indexOf(lowercaseQuery) != -1);
     };
+  }
+
+  /*
+   * Save and discard functions
+   */
+  $scope.save = function(publication) {
+    if ($scope.publishDate) {
+      $scope.publication.publishDate = $scope.publishDate.getTime();
+    }
+    angular.copy($scope.publication, $scope.initial);
+    $mdDialog.hide($scope.initial);
+  }
+  $scope.discard = function() {
+    $mdDialog.cancel();
   }
 
 };
