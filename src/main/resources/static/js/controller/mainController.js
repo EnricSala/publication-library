@@ -93,17 +93,31 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     }
   };
   $scope.filterPublications = function(pub) {
-    var hasAuthor = !$scope.selectedAuthor.id ||
+    return hasAuthor(pub) && matchesType(pub) && matchesYearRange(pub);
+  }
+
+  function hasAuthor(pub) {
+    return !$scope.selectedAuthor.id ||
       pub.authors.map(function(author) {
         return $scope.selectedAuthor.id === author.id;
       }).reduce(function(aux, matches) {
         return aux = aux || matches;
       }, false);
+  }
+
+  function matchesType(pub) {
     var type = angular.lowercase($scope.query.type);
-    var matchesType = (type === 'all') ||
+    return (type === 'all') ||
       (angular.lowercase(pub.publisher.type) === type);
-    // console.log('HasAuthor: ' + hasAuthor + ", MatchesType: " + matchesType);
-    return hasAuthor && matchesType;
+  }
+
+  function matchesYearRange(pub) {
+    if (pub.publishDate) {
+      var year = (new Date(pub.publishDate)).getFullYear();
+      return (year >= $scope.query.minYear) &&
+        (year <= $scope.query.maxYear);
+    }
+    return true;
   }
 
   /*
