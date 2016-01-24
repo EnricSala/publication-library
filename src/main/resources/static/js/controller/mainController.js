@@ -36,7 +36,8 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     floor: $scope.query.minYear,
     ceil: $scope.query.maxYear,
     draggableRange: true,
-    keyboardSupport: false
+    keyboardSupport: false,
+    hideLimitLabels: true
   };
 
   /*
