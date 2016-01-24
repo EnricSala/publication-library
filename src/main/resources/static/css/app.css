@@ -1,11 +1,7 @@
 #app-logo {
-  width: 40px;
-  height: 40px;
-  margin: -10px auto auto -8px;
-  padding: 0;
-  display: inline-block;
-  background-repeat: no-repeat no-repeat;
-  pointer-events: none;
+  width: 45px;
+  height: 45px;
+  margin-right: 16px;
 }
 .author-search md-input-container {
   margin: 18px 18px -10px 14px;
@@ -16,9 +12,16 @@
 .selected-author {
   background-color: rgba(63, 81, 181, 0.2);
 }
+#content {
+  /* Set publication backgroud to light gray  */
+  background-color: rgb(245, 245, 245);
+}
+#search-form {
+  margin-bottom: 12px;
+}
 #search-form .md-errors-spacer {
   /* Remove the space reserved for errors */
-  min-height: 0px
+  min-height: 0px;
 }
 .publication md-card-title {
   padding: 0px 16px;
