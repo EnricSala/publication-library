@@ -44,7 +44,7 @@
 	</md-fab-speed-dial>
 
 	<!-- Main content -->
-	<div flex layout="row">
+	<md-content flex layout="row">
 
 		<!-- Sidenav author filter-->
 		<md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
@@ -58,7 +58,6 @@
 						<md-button ng-click="clearAuthor()">X</md-button>
 					</div>
 				</form>
-
 				<md-list class="author-list">
 					<md-list-item ng-repeat="author in authors | filter:{fullname: query.author} | orderBy:'fullname'" ng-click="selectAuthor(author)" ng-class="author.id===selectedAuthor.id ? 'selected-author' : ''">
 						<img alt="{{ author.fullname }}" ng-src="{{ author.photo }}" class="md-avatar" />
@@ -124,7 +123,7 @@
 			</div>
 
 		</md-content>
-	</div>
+	</md-content>
 
 	<!-- Angular Material requires Angular.js Libraries -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
