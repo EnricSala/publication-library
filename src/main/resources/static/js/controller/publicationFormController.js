@@ -14,6 +14,13 @@ function publicationFormController($scope, $mdDialog, Authors, Publishers, init,
   $scope.publication = angular.copy($scope.initial);
 
   /*
+   * Initialize date field if present
+   */
+  if ($scope.publication.publishDate) {
+    $scope.publishDate = new Date($scope.publication.publishDate);
+  }
+
+  /*
    * Load authors and publishers
    */
   Authors.query({}, function(list) {
@@ -28,6 +35,9 @@ function publicationFormController($scope, $mdDialog, Authors, Publishers, init,
    * Save and discard functions
    */
   $scope.save = function(publication) {
+    if ($scope.publishDate) {
+      $scope.publication.publishDate = $scope.publishDate.getTime();
+    }
     angular.copy($scope.publication, $scope.initial);
     $mdDialog.hide($scope.initial);
   }
