@@ -7,6 +7,7 @@ angular
     'app', [
       'ngMaterial',
       'ngResource',
+      'rzModule',
       'app.services',
       'app.controllers'
     ])

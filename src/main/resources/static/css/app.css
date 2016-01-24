@@ -23,6 +23,17 @@
   /* Remove the space reserved for errors */
   min-height: 0px;
 }
+#search-form .type-selector {
+  width: 120px;
+  margin-left: 16px;
+}
+.year-slider {
+  /* Use fixed width because the slider does not
+  render properly when using flex */
+  width: 250px;
+  padding-bottom: 4px;
+  margin-left: 16px;
+}
 .publication md-card-title {
   padding: 0px 16px;
 }

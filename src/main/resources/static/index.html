@@ -5,10 +5,11 @@
 	<meta charset="utf-8" />
 	<title>MCIA Publications</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.2/angular-material.min.css"></link>
+	<link rel="stylesheet" href="/css/lib/rzslider.min.css"></link>
 	<link rel="stylesheet" href="/css/app.css"></link>
 </head>
 
-<body ng-app="app" ng-controller="MainController" layout="column" ng-cloak>
+<body ng-app="app" ng-controller="MainController" layout="column">
 
 	<!-- Application title -->
 	<md-toolbar layout="row">
@@ -73,17 +74,20 @@
 			<!-- Search form -->
 			<md-content id="search-form" layout-padding class="md-whiteframe-z1">
 				<form name="searchForm">
-					<div layout="row">
-						<md-input-container class="md-block" flex="66">
+					<div layout="row" layout-sm="column">
+						<md-input-container class="md-block" flex>
 							<label>Search</label>
 							<input ng-model="query.text" ng-change="searchPublications()" ng-model-options="{debounce: 500}"></input>
 						</md-input-container>
-						<md-input-container class="md-block" flex="33">
+						<md-input-container class="type-selector md-block">
 							<label>Type</label>
 							<md-select ng-model="query.type">
 								<md-option ng-repeat="type in publicationTypes" value="{{ type }}">{{ type }}</md-option>
 							</md-select>
 						</md-input-container>
+						<div class="year-slider" layout="column" layout-align="end center">
+							<rzslider rz-slider-model="query.minYear" rz-slider-high="query.maxYear" rz-slider-options="yearSliderConfig"></rzslider>
+						</div>
 					</div>
 				</form>
 			</md-content>
@@ -131,6 +135,9 @@
 
 	<!-- Angular Material Library -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.2/angular-material.min.js"></script>
+
+	<!-- AngularJS Slider -->
+	<script src="/js/lib/rzslider.min.js"></script>
 
 	<!-- App -->
 	<script src="/js/app.js"></script>
