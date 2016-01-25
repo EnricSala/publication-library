@@ -103,9 +103,25 @@
 							<span class="md-title">{{ pub.authors[0].fullname }}</span>
 							<span class="md-subhead">{{ getSecondaryAuthors(pub.authors) }}</span>
 						</md-card-header-text>
-						<md-button class="md-icon-button" aria-label="Edit" ng-click="showPublicationDialog($event, pub)">
-							<md-icon md-svg-icon="img/icon/pencil.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
-						</md-button>
+						<md-menu md-position-mode="target-right target">
+							<md-button class="md-icon-button" ng-click="openPublicationMenu($mdOpenMenu, $event)">
+								<md-icon md-menu-origin md-svg-icon="/img/icon/dots-vertical.svg"></md-icon>
+							</md-button>
+							<md-menu-content width="3">
+								<md-menu-item>
+									<md-button md-menu-align-target ng-click="clickPublicationDetails($event, pub)">{{ authenticated ? 'Edit' : 'View' }} details</md-button>
+								</md-menu-item>
+								<md-menu-item>
+									<md-button ng-click="clickPublicationWebsite($event, pub)">Visit website</md-button>
+								</md-menu-item>
+								<md-menu-item>
+									<md-button ng-click="clickPublicationReference($event, pub)">Export reference</md-button>
+								</md-menu-item>
+								<md-menu-item ng-if="authenticated">
+									<md-button ng-click="clickRemovePublication($event, pub)">Remove publication</md-button>
+								</md-menu-item>
+							</md-menu-content>
+						</md-menu>
 					</md-card-header>
 					<md-card-title>
 						<md-card-title-text>

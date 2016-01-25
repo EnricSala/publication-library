@@ -225,6 +225,25 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   }
 
   /*
+   * Handle publication menu actions
+   */
+  $scope.openPublicationMenu = function($mdOpenMenu, ev) {
+    $mdOpenMenu(ev);
+  };
+  $scope.clickPublicationDetails = function(ev, publication) {
+    $scope.showPublicationDialog(ev, publication);
+  }
+  $scope.clickPublicationWebsite = function(ev, publication) {
+    // TODO open website
+  }
+  $scope.clickPublicationReference = function(ev, publication) {
+    // TODO export reference
+  }
+  $scope.clickRemovePublication = function(ev, publication) {
+    // TODO remove publication
+  }
+
+  /*
    * Show login dialog
    */
   $scope.showLoginDialog = function(ev) {

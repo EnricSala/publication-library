@@ -41,6 +41,9 @@
   text-align: justify;
   text-justify: inter-word;
 }
+.publication md-menu {
+  padding: 0px;
+}
 .publication-author img {
   width: 40px;
   height: 40px;
