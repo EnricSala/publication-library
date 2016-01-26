@@ -111,7 +111,7 @@
 								<md-menu-item>
 									<md-button md-menu-align-target ng-click="clickPublicationDetails($event, pub)">{{ authenticated ? 'Edit' : 'View' }} details</md-button>
 								</md-menu-item>
-								<md-menu-item>
+								<md-menu-item ng-if="pub.url">
 									<md-button ng-click="clickPublicationWebsite($event, pub)">Visit website</md-button>
 								</md-menu-item>
 								<md-menu-item>

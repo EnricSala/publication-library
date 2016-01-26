@@ -234,7 +234,11 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     $scope.showPublicationDialog(ev, publication);
   }
   $scope.clickPublicationWebsite = function(ev, publication) {
-    // TODO open website
+    var url = publication.url;
+    // To make window.open work, add protocol when none is specified
+    url = /^https?:\/\//.test(url) ? url : 'http://' + url;
+    console.log('Clicked visit publication url: ' + url);
+    window.open(url);
   }
   $scope.clickPublicationReference = function(ev, publication) {
     // TODO export reference
