@@ -48,6 +48,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  cursor: pointer;
+}
+.publication md-card-title-text .md-subhead {
+  cursor: pointer;
 }
 .md-dialog-content md-input-container {
   margin-top: 9px;
