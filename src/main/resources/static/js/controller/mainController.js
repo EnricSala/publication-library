@@ -241,10 +241,27 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     window.open(url);
   }
   $scope.clickPublicationReference = function(ev, publication) {
-    // TODO export reference
+    $scope.showReferenceExportDialog(ev, [publication]);
   }
   $scope.clickRemovePublication = function(ev, publication) {
     // TODO remove publication
+  }
+
+  /*
+   * Show reference export dialog
+   */
+  $scope.showReferenceExportDialog = function(ev, publications) {
+    $mdDialog.show({
+      controller: 'ReferenceExportController',
+      templateUrl: '/view/referenceExportDialog.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      fullscreen: true,
+      locals: {
+        init: publications
+      }
+    });
   }
 
   /*
