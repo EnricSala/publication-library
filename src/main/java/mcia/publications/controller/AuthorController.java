@@ -64,4 +64,10 @@ public class AuthorController {
 		return saved;
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void deletebyId(@PathVariable String id) {
+		log.info("DELETE: author by id={}", id);
+		authorRepository.delete(id);
+	}
+
 }

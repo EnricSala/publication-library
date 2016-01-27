@@ -74,4 +74,10 @@ public class PublicationController {
 		return saved;
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void deletebyId(@PathVariable String id) {
+		log.info("DELETE: publication by id={}", id);
+		publicationRepository.delete(id);
+	}
+
 }
