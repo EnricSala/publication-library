@@ -244,7 +244,27 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     $scope.showReferenceExportDialog(ev, [publication]);
   }
   $scope.clickRemovePublication = function(ev, publication) {
-    // TODO remove publication
+    var confirm = $mdDialog.confirm()
+      .title('Remove this publication?')
+      .textContent('"' + publication.title + '"')
+      .targetEvent(ev)
+      .ok('Remove')
+      .cancel('Cancel');
+    $mdDialog.show(confirm).then(function() {
+      removePublication(publication);
+    });
+  }
+
+  function removePublication(publication) {
+    console.log('Removing publication: ' + publication.title);
+    Publications.remove({
+      id: publication.id
+    }, function() {
+      var idx = $scope.publications.indexOf(publication);
+      if (idx > -1) {
+        $scope.publications.splice(idx, 1);
+      }
+    });
   }
 
   /*
