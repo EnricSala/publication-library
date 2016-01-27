@@ -126,7 +126,7 @@
 					<md-card-title>
 						<md-card-title-text>
 							<span class="md-title">{{ pub.title }}</span>
-							<span class="md-subhead">
+							<span class="md-subhead" ng-click="showPublisherDialog($event, pub.publisher)">
 								{{ pub.publisher.acronym }} ({{ pub.publishDate | date:'yyyy-MM' }}) - {{ pub.publisher.fullname | limitTo:55 }}{{ pub.publisher.fullname.length > 55 ? '...' : '' }}
 							</span>
 						</md-card-title-text>
