@@ -28,16 +28,16 @@
 	</md-toolbar>
 
 	<!-- Add content menu-->
-	<md-fab-speed-dial ng-show="authenticated" md-direction="down" md-open="isMenuOpen" class="md-scale md-fab-top-right" ng-mouseleave="isMenuOpen=false">
+	<md-fab-speed-dial md-direction="up" md-open="isMenuOpen" class="md-scale md-fab-bottom-right" ng-mouseleave="isMenuOpen=false">
 		<md-fab-trigger>
 			<md-button aria-label="menu" class="md-fab md-warn">
-				<md-icon md-svg-src="/img/icon/plus.svg" aria-label="menu"></md-icon>
+				<md-icon md-svg-src="/img/icon/menu.svg" aria-label="menu"></md-icon>
 			</md-button>
 		</md-fab-trigger>
 		<md-fab-actions>
-			<div ng-repeat="(idx, item) in items">
-				<md-button aria-label="{{item.name}}" class="md-fab md-raised md-mini" ng-click="handleMenuClick($event, idx)">
-					<md-tooltip md-direction="left" ng-if="isMenuOpen">{{item.name}}</md-tooltip>
+			<div ng-repeat="(idx, item) in menuItems" ng-if="isMenuOpen">
+				<md-button ng-if="isOptionVisible(item)" ng-click="handleMenuClick($event, idx)" class="md-fab md-raised md-mini" aria-label="{{item.name}}">
+					<md-tooltip md-direction="left">{{item.name}}</md-tooltip>
 					<md-icon md-svg-src="{{item.icon}}" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
 				</md-button>
 			</div>
