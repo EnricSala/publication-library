@@ -124,16 +124,26 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   /*
    * Menu for adding content
    */
-  $scope.items = [{
+  $scope.menuItems = [{
     name: "New Publication",
-    icon: "/img/icon/publication-plus.svg"
+    icon: "/img/icon/publication-plus.svg",
+    sensitive: true
   }, {
     name: "New Author",
-    icon: "/img/icon/author-plus.svg"
+    icon: "/img/icon/author-plus.svg",
+    sensitive: true
   }, {
     name: "New Publisher",
-    icon: "/img/icon/folder-plus.svg"
+    icon: "/img/icon/folder-plus.svg",
+    sensitive: true
+  }, {
+    name: "Export Publications",
+    icon: "/img/icon/file-export.svg",
+    sensitive: false
   }];
+  $scope.isOptionVisible = function(option) {
+    return !option.sensitive || $scope.authenticated;
+  }
   $scope.handleMenuClick = function(ev, idx) {
     switch (idx) {
       case 0:
@@ -147,6 +157,10 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       case 2:
         console.log('Open new publisher dialog');
         $scope.showPublisherDialog(ev);
+        break;
+      case 3:
+        console.log('Export current selection');
+        $scope.showReferenceExportDialog(ev, $scope.publications);
         break;
     }
   }
