@@ -13,8 +13,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/", "/index.html").permitAll()
-				.antMatchers(HttpMethod.GET, "/img/**", "/view/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/js/**", "/css/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/img/**", "/view/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/photos/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
