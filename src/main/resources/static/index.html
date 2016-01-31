@@ -21,9 +21,20 @@
 			</div>
 			<h2>Publication Library</h2>
 			<span flex></span>
-			<md-button ng-click="showLoginDialog($event)" ng-hide="authenticated">Login</md-button>
-			<md-button ng-click="logout()" ng-show="authenticated">Logout</md-button>
-			<span flex="10"></span>
+			<div layout="row" layout-align="center center">
+				<md-button ng-click="showLoginDialog($event)" ng-hide="authenticated">
+					<div layout="row" layout-margin layout-align="center center">
+						<md-icon md-svg-src="/img/icon/login.svg"></md-icon>
+						<span>Login</span>
+					</div>
+				</md-button>
+				<md-button ng-click="logout()" ng-show="authenticated">
+					<div layout="row" layout-margin layout-align="center center">
+						<md-icon md-svg-src="/img/icon/logout.svg"></md-icon>
+						<span>Logout</span>
+					</div>
+				</md-button>
+			</div>
 		</div>
 	</md-toolbar>
 
