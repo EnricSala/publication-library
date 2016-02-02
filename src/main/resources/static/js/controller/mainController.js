@@ -84,7 +84,9 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       $scope.publications = Publications.query({
         q: $scope.query.text,
         author: $scope.query.author,
-        type: $scope.query.type
+        type: angular.lowercase($scope.query.type),
+        after: $scope.query.minYear,
+        before: $scope.query.maxYear
       });
     } else {
       Publications.query().$promise.then(function(list) {
