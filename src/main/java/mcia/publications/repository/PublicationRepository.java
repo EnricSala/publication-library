@@ -13,6 +13,13 @@ import mcia.publications.domain.Publication;
 public interface PublicationRepository extends PagingAndSortingRepository<Publication, String> {
 
 	@Query("{ $and: ["
+			+ "{ $or: [{ $where: '?0==null' }, { authorIds: ?0 }] },"
+			+ "{ $or: [{ $where: '?1.length==0' }, { publisherId: { '$in': ?1 } }] },"
+			+ "{ publishDate: { $gte: ?2, $lte: ?3 } }"
+			+ "] }")
+	public Page<Publication> search(String authorId, List<String> publisherIds, Date after, Date before, Pageable pageable);
+
+	@Query("{ $and: ["
 			+ "{ $text: { $search: ?0 } },"
 			+ "{ $or: [{ $where: '?1==null' }, { authorIds: ?1 }] },"
 			+ "{ $or: [{ $where: '?2.length==0' }, { publisherId: { '$in': ?2 } }] },"

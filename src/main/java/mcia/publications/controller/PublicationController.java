@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -71,8 +72,13 @@ public class PublicationController {
 		String authorId = author.isEmpty() ? null : author;
 
 		// Run search
-		Page<Publication> result = publicationRepository.search(
-				query, authorId, publisherIds, after, before, new PageRequest(page, PAGE_SIZE, SORT));
+		Pageable pageable = new PageRequest(page, PAGE_SIZE, SORT);
+		Page<Publication> result;
+		if (query.isEmpty()) {
+			result = publicationRepository.search(authorId, publisherIds, after, before, pageable);
+		} else {
+			result = publicationRepository.search(query, authorId, publisherIds, after, before, pageable);
+		}
 		log.info("Matched {} elements in {} pages", result.getTotalElements(), result.getTotalPages());
 		return result;
 	}
