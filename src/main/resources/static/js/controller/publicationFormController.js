@@ -6,14 +6,14 @@ angular
   .module('app.controllers')
   .controller('PublicationFormController', publicationFormController);
 
-function publicationFormController($scope, $mdDialog, Authors, Publishers, init, readonly) {
+function publicationFormController($scope, $mdDialog, AuthorApi, PublisherApi, init, readonly) {
   $scope.readonly = readonly;
   $scope.initial = init || {
     authors: []
   };
   $scope.publication = angular.copy($scope.initial);
-  $scope.allAuthors = Authors.query();
-  $scope.allPublishers = Publishers.query();
+  $scope.allAuthors = AuthorApi.query();
+  $scope.allPublishers = PublisherApi.query();
 
   /*
    * Initialize date field if present

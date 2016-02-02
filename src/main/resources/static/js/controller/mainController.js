@@ -6,10 +6,7 @@ angular
   .module('app.controllers')
   .controller('MainController', MainController);
 
-function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishers) {
-  $scope.authors = Authors.query();
-  $scope.publishers = Publishers.query();
-  $scope.publications = Publications.query();
+function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishers, PublicationApi, AuthorApi, PublisherApi) {
   $scope.publicationTypes = ['All', 'Journal', 'Conference', 'Book'];
   $scope.query = {
     text: '',
@@ -20,6 +17,15 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   };
   $scope.selectedAuthor = {};
   $scope.isMenuOpen = false;
+
+  /*
+   * Load initial data
+   */
+  Publications.init().then(function(data) {
+    $scope.authors = data.authors;
+    $scope.publishers = data.publishers;
+    $scope.publications = data.publications;
+  });
 
   /*
    * Check authentication state
@@ -59,6 +65,14 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   /*
    * Calulate secondary authors
    */
+  $scope.getSecondaryAuthors = function(authors) {
+    var items = authors || [];
+    var secondaries = items.slice(1, items.length);
+    return secondaries.map(function(author) {
+      return shortenName(author.fullname);
+    }).join(', ');
+  };
+
   function shortenName(name) {
     var parts = name.split(' ');
     var last = parts.pop();
@@ -68,32 +82,14 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     parts.push(last);
     return parts.join('. ');
   }
-  $scope.getSecondaryAuthors = function(authors) {
-    var secondaries = authors.slice(1, authors.length);
-    return secondaries.map(function(author) {
-      return shortenName(author.fullname);
-    }).join(', ');
-  };
 
   /*
    * Search Publications
    */
   $scope.searchPublications = function() {
-    if ($scope.query.text) {
-      console.log('Searching: ' + $scope.query.text);
-      $scope.publications = Publications.query({
-        q: $scope.query.text,
-        author: $scope.query.author,
-        type: angular.lowercase($scope.query.type),
-        after: $scope.query.minYear,
-        before: $scope.query.maxYear
-      });
-    } else {
-      Publications.query().$promise.then(function(list) {
-        console.log('Empty query, showing all');
-        $scope.publications = list;
-      });
-    }
+    Publications.search($scope.query).then(function(publications) {
+      $scope.publications = publications;
+    });
   };
   $scope.filterPublications = function(pub) {
     return hasAuthor(pub) && matchesType(pub) && matchesYearRange(pub);
@@ -174,7 +170,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     var resource = findResource(publication, $scope.authors);
     handleResourceDialog(ev, publication, 'PublicationFormController', 'publicationDialog.html',
       function(newPublication) {
-        Publications.save(newPublication, function(saved) {
+        PublicationApi.save(newPublication, function(saved) {
           console.log('Saved new publication: ' + JSON.stringify(saved));
           $scope.publications.push(saved);
         });
@@ -184,7 +180,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     var resource = findResource(author, $scope.authors);
     handleResourceDialog(ev, resource, 'AuthorFormController', 'authorDialog.html',
       function(newAuthor) {
-        Authors.save(newAuthor, function(saved) {
+        AuthorApi.save(newAuthor, function(saved) {
           console.log('Saved new author: ' + JSON.stringify(saved));
           $scope.authors.push(saved);
         });
@@ -194,7 +190,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     var resource = findResource(publisher, $scope.publishers);
     handleResourceDialog(ev, resource, 'PublisherFormController', 'publisherDialog.html',
       function(newPublisher) {
-        Publishers.save(newPublisher, function(saved) {
+        PublisherApi.save(newPublisher, function(saved) {
           console.log('Saved new publisher: ' + JSON.stringify(saved));
           $scope.publishers.push(saved);
         });
@@ -273,7 +269,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
 
   function removePublication(publication) {
     console.log('Removing publication: ' + publication.title);
-    Publications.remove({
+    PublicationApi.remove({
       id: publication.id
     }, function() {
       var idx = $scope.publications.indexOf(publication);
