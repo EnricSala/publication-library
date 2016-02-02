@@ -17,6 +17,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   };
   $scope.selectedAuthor = {};
   $scope.isMenuOpen = false;
+  $scope.metadata = {};
 
   /*
    * Load initial data
@@ -25,6 +26,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     $scope.authors = data.authors;
     $scope.publishers = data.publishers;
     $scope.publications = data.publications;
+    $scope.metadata = data.publications.$metadata;
   });
 
   /*
@@ -89,6 +91,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   $scope.searchPublications = function() {
     Publications.search($scope.query).then(function(publications) {
       $scope.publications = publications;
+      $scope.metadata = data.publications.$metadata;
     });
   };
   $scope.filterPublications = function(pub) {

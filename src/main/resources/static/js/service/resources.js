@@ -35,7 +35,6 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
 
   function search(query) {
     return runQuery(query).then(function(list) {
-      console.log('Search returned ' + list.length + ' publications');
       return wireUp(list);
     });
   }
@@ -62,11 +61,14 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
     return PublicationApi.query({
       q: params.text,
       author: params.author,
-      type: params.type,
+      type: angular.lowercase(params.type),
       after: params.after,
       before: params.before,
       page: params.page
-    }).$promise;
+    }).$promise.then(function(res) {
+      console.log('Search returned: ' + JSON.stringify(res.$metadata));
+      return res;
+    });
   }
 
   function wireUp(publications) {
@@ -83,7 +85,10 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
         return pub;
       }));
     });
-    return $q.all(promises);
+    return $q.all(promises).then(function(data) {
+      data.$metadata = publications.$metadata;
+      return data;
+    });
   }
 
 }
