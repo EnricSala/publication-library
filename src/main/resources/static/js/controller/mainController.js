@@ -89,9 +89,11 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    * Search Publications
    */
   $scope.searchPublications = function() {
+    $scope.publications = [];
+    $scope.metadata = {};
     Publications.search($scope.query).then(function(publications) {
       $scope.publications = publications;
-      $scope.metadata = data.publications.$metadata;
+      $scope.metadata = publications.$metadata;
     });
   };
   $scope.filterPublications = function(pub) {
@@ -326,6 +328,27 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       console.log('Clicked logout, authenticated: no');
       $scope.authenticated = authenticated;
     });
+  }
+
+  /*
+   * Hande Navigation buttons
+   */
+  $scope.showPagingButtons = function() {
+    return $scope.metadata.totalPages > 0;
+  }
+  $scope.showNextButton = function() {
+    return ($scope.metadata.page + 1) < $scope.metadata.totalPages;
+  }
+  $scope.showPrevButton = function() {
+    return $scope.metadata.page > 0;
+  }
+  $scope.navNextPage = function() {
+    $scope.query.page = $scope.metadata.page + 1;
+    $scope.searchPublications();
+  }
+  $scope.navPrevPage = function() {
+    $scope.query.page = $scope.metadata.page - 1;
+    $scope.searchPublications();
   }
 
 };

@@ -150,6 +150,16 @@
 				</md-card>
 			</div>
 
+			<div ng-if="showPagingButtons()" flex layout="row" layout-align="center center" layout-padding>
+				<md-button ng-click="navPrevPage()" ng-if="showPrevButton()" class="md-icon-button" aria-label="Previous Page">
+					<md-icon md-svg-src="img/icon/chevron-left.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
+				</md-button>
+				<span>Page {{ metadata.page + 1 }} / {{ metadata.totalPages }}</span>
+				<md-button ng-click="navNextPage()" ng-if="showNextButton()" class="md-icon-button" aria-label="Next Page">
+					<md-icon md-svg-src="img/icon/chevron-right.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
+				</md-button>
+			</div>
+
 		</md-content>
 	</md-content>
 
