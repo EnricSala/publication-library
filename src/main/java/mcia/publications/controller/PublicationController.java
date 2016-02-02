@@ -49,13 +49,13 @@ public class PublicationController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Page<Publication> query(
 			@RequestParam(name = "q", defaultValue = "") String query,
-			@RequestParam(name = "author", required = false) String authorId,
+			@RequestParam(name = "author", defaultValue = "") String author,
 			@RequestParam(name = "type", defaultValue = "all") String type,
 			@RequestParam(name = "after", defaultValue = AFTER) @DateTimeFormat(pattern = "yyyy") Date after,
 			@RequestParam(name = "before", defaultValue = BEFORE) @DateTimeFormat(pattern = "yyyy") Date before,
 			@RequestParam(name = "page", defaultValue = "0") @Min(0) Integer page) {
 		log.info("GET: publications page={}, q={}, author={}, type={}, after={}, before={}",
-				page, query, authorId, type, after, before);
+				page, query, author, type, after, before);
 
 		// Fetch publishers matching type
 		List<String> publisherIds;
@@ -66,6 +66,9 @@ public class PublicationController {
 		} else {
 			publisherIds = Collections.emptyList();
 		}
+
+		// Replace author with null when empty
+		String authorId = author.isEmpty() ? null : author;
 
 		// Run search
 		Page<Publication> result = publicationRepository.search(
