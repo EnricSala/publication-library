@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
+import mcia.publications.controller.dto.PageableResult;
 import mcia.publications.domain.Publication;
 import mcia.publications.domain.Publisher;
 import mcia.publications.repository.PublicationRepository;
@@ -48,7 +49,7 @@ public class PublicationController {
 	PublisherRepository publisherRepository;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Page<Publication> query(
+	public PageableResult<Publication> query(
 			@RequestParam(name = "q", defaultValue = "") String query,
 			@RequestParam(name = "author", defaultValue = "") String author,
 			@RequestParam(name = "type", defaultValue = "all") String type,
@@ -80,7 +81,7 @@ public class PublicationController {
 			result = publicationRepository.search(query, authorId, publisherIds, after, before, pageable);
 		}
 		log.info("Matched {} elements in {} pages", result.getTotalElements(), result.getTotalPages());
-		return result;
+		return PageableResult.from(result);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
