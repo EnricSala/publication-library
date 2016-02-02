@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.TextScore;
 
@@ -23,9 +22,9 @@ public class Publication {
 
 	private @TextIndexed String summary;
 
-	private @DBRef List<Author> authors;
+	private List<String> authorIds;
 
-	private @DBRef Publisher publisher;
+	private String publisherId;
 
 	private String url;
 
