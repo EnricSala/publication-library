@@ -10,6 +10,9 @@ import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +35,10 @@ public class PublicationController {
 	private static final int PAGE_SIZE = 10;
 	private static final String AFTER = "1990";
 	private static final String BEFORE = "3000";
+
+	private static final Order SCORE_ORDER = new Order(Direction.DESC, "score");
+	private static final Order DATE_ORDER = new Order(Direction.DESC, "publishDate");
+	private static final Sort SORT = new Sort(SCORE_ORDER, DATE_ORDER);
 
 	@Autowired
 	PublicationRepository publicationRepository;
@@ -62,7 +69,7 @@ public class PublicationController {
 
 		// Run search
 		Page<Publication> result = publicationRepository.search(
-				query, authorId, publisherIds, after, before, new PageRequest(page, PAGE_SIZE));
+				query, authorId, publisherIds, after, before, new PageRequest(page, PAGE_SIZE, SORT));
 		log.info("Matched {} elements in {} pages", result.getTotalElements(), result.getTotalPages());
 		return result;
 	}
