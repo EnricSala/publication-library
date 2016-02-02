@@ -88,6 +88,10 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   /*
    * Search Publications
    */
+  $scope.queryTextChanged = function() {
+    $scope.query.page = 0;
+    $scope.searchPublications();
+  }
   $scope.searchPublications = function() {
     $scope.publications = [];
     $scope.metadata = {};

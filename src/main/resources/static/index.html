@@ -88,7 +88,7 @@
 					<div layout="row" layout-sm="column">
 						<md-input-container class="md-block" flex>
 							<label>Search</label>
-							<input ng-model="query.text" ng-change="searchPublications()" ng-model-options="{debounce: 500}"></input>
+							<input ng-model="query.text" ng-change="queryTextChanged()" ng-model-options="{debounce: 500}"></input>
 						</md-input-container>
 						<md-input-container class="type-selector md-block">
 							<label>Type</label>
