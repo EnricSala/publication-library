@@ -143,7 +143,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    * Show new/edit dialogs
    */
   $scope.showPublicationDialog = function(ev, publication) {
-    var resource = findResource(publication, $scope.authors);
     handleResourceDialog(ev, publication, 'PublicationFormController', 'publicationDialog.html',
       function(newPublication) {
         PublicationApi.save(newPublication, function(saved) {
@@ -153,8 +152,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       });
   };
   $scope.showAuthorDialog = function(ev, author) {
-    var resource = findResource(author, $scope.authors);
-    handleResourceDialog(ev, resource, 'AuthorFormController', 'authorDialog.html',
+    handleResourceDialog(ev, author, 'AuthorFormController', 'authorDialog.html',
       function(newAuthor) {
         AuthorApi.save(newAuthor, function(saved) {
           console.log('Saved new author: ' + JSON.stringify(saved));
@@ -163,8 +161,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       });
   };
   $scope.showPublisherDialog = function(ev, publisher) {
-    var resource = findResource(publisher, $scope.publishers);
-    handleResourceDialog(ev, resource, 'PublisherFormController', 'publisherDialog.html',
+    handleResourceDialog(ev, publisher, 'PublisherFormController', 'publisherDialog.html',
       function(newPublisher) {
         PublisherApi.save(newPublisher, function(saved) {
           console.log('Saved new publisher: ' + JSON.stringify(saved));
@@ -172,17 +169,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
         });
       });
   };
-
-  function findResource(item, list) {
-    if (item) {
-      for (var i = 0; i < list.length; i++) {
-        if (list[i].id === item.id) {
-          return list[i];
-        }
-      }
-    }
-    return null;
-  }
 
   /*
    * Function to handle resource dialogs
