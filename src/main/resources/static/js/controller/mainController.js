@@ -13,7 +13,8 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     author: '',
     type: $scope.publicationTypes[0],
     minYear: 1990,
-    maxYear: new Date().getFullYear()
+    maxYear: new Date().getFullYear(),
+    page: 0
   };
   $scope.selectedAuthor = {};
   $scope.isMenuOpen = false;
