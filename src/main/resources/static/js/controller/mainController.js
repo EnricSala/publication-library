@@ -94,9 +94,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       $scope.metadata = publications.$metadata;
     });
   };
-  $scope.filterPublications = function(pub) {
-    return true;
-  }
 
   /*
    * Menu for adding content
