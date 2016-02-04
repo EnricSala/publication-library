@@ -60,18 +60,17 @@
 
 		<!-- Sidenav author filter-->
 		<md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
-			<md-content class="md-padding" layout="column">
+			<md-content layout="column" class="author-search">
 				<form name="authorForm">
-					<div class="author-search" layout="row">
-						<md-input-container flex="80" class="md-block">
+					<div>
+						<md-input-container flex class="md-block">
 							<label>Author</label>
-							<input ng-model="query.author"></input>
+							<input ng-model="authorFilter"></input>
 						</md-input-container>
-						<md-button ng-click="clearAuthor()">X</md-button>
 					</div>
 				</form>
 				<md-list class="author-list">
-					<md-list-item ng-repeat="author in authors | filter:{fullname: query.author} | orderBy:'fullname'" ng-click="selectAuthor(author)" ng-class="author.id===selectedAuthor.id ? 'selected-author' : ''">
+					<md-list-item ng-repeat="author in authors | filter:{fullname: authorFilter} | orderBy:'fullname'" ng-click="selectAuthor(author)" ng-class="author.id === query.author ? 'selected-author' : ''">
 						<img alt="{{ author.fullname }}" ng-src="{{ author.photo }}" class="md-avatar" />
 						<p>{{ author.fullname }}</p>
 					</md-list-item>
@@ -88,7 +87,7 @@
 					<div layout="row" layout-sm="column">
 						<md-input-container class="md-block" flex>
 							<label>Search</label>
-							<input ng-model="query.text" ng-change="queryTextChanged()" ng-model-options="{debounce: 500}"></input>
+							<input ng-model="query.text" ng-change="doNewSearch()" ng-model-options="{debounce: 500}"></input>
 						</md-input-container>
 						<md-input-container class="type-selector md-block">
 							<label>Type</label>

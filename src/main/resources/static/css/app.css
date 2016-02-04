@@ -4,7 +4,13 @@
   margin-right: 16px;
 }
 .author-search md-input-container {
-  margin: 18px 18px -10px 14px;
+  margin: 32px 40px 0px 30px;
+}
+.author-search .md-errors-spacer {
+  min-height: 0px;
+}
+.author-search md-list {
+  margin: 8px 12px;
 }
 .author-list p {
   line-height: 24px;

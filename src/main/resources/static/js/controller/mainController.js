@@ -16,7 +16,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     maxYear: new Date().getFullYear(),
     page: 0
   };
-  $scope.selectedAuthor = {};
+  $scope.authorFilter = '';
   $scope.isMenuOpen = false;
   $scope.metadata = {};
 
@@ -53,16 +53,9 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    * Search Author
    */
   $scope.selectAuthor = function(author) {
-    if ($scope.selectedAuthor.id === author.id) {
-      $scope.selectedAuthor = {};
-      $scope.query.author = '';
-    } else {
-      $scope.selectedAuthor = author;
-    }
-  };
-  $scope.clearAuthor = function() {
-    $scope.selectedAuthor = {};
-    $scope.query.author = '';
+    $scope.authorFilter = '';
+    $scope.query.author = $scope.query.author === author.id ? '' : author.id;
+    $scope.doNewSearch();
   };
 
   /*
@@ -89,7 +82,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   /*
    * Search Publications
    */
-  $scope.queryTextChanged = function() {
+  $scope.doNewSearch = function() {
     $scope.query.page = 0;
     $scope.searchPublications();
   }
@@ -102,30 +95,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     });
   };
   $scope.filterPublications = function(pub) {
-    return hasAuthor(pub) && matchesType(pub) && matchesYearRange(pub);
-  }
-
-  function hasAuthor(pub) {
-    return !$scope.selectedAuthor.id ||
-      pub.authors.map(function(author) {
-        return $scope.selectedAuthor.id === author.id;
-      }).reduce(function(aux, matches) {
-        return aux = aux || matches;
-      }, false);
-  }
-
-  function matchesType(pub) {
-    var type = angular.lowercase($scope.query.type);
-    return (type === 'all') ||
-      (angular.lowercase(pub.publisher.type) === type);
-  }
-
-  function matchesYearRange(pub) {
-    if (pub.publishDate) {
-      var year = (new Date(pub.publishDate)).getFullYear();
-      return (year >= $scope.query.minYear) &&
-        (year <= $scope.query.maxYear);
-    }
     return true;
   }
 
