@@ -40,6 +40,12 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
   }
 
   function save(publication) {
+    // Conver publisher and author list to ids
+    publication.publisherId = publication.publisher ? publication.publisher.id : null;
+    publication.authorIds = publication.authors.map(function(author) {
+      return author.id;
+    });
+    // If existing do put, else do post
     if (publication.id) {
       return PublicationApi.update(publication).$promise;
     } else {
@@ -126,16 +132,15 @@ function AuthorService($q, Utils, AuthorApi) {
 
   function save(author) {
     if (author.id) {
-      return AuthorApi.update(author).$promise.then(function(data) {
-        cache[data.id] = data;
-        return data;
-      });
+      return AuthorApi.update(author).$promise.then(saveCallback);
     } else {
-      return AuthorApi.save(author).$promise.then(function(data) {
-        cache[data.id] = data;
-        return data;
-      });
+      return AuthorApi.save(author).$promise.then(saveCallback);
     }
+  }
+
+  function saveCallback(data) {
+    cache[data.id] = data;
+    return data;
   }
 
 }
@@ -175,16 +180,15 @@ function PublisherService($q, Utils, PublisherApi) {
 
   function save(publisher) {
     if (publisher.id) {
-      return PublisherApi.update(publisher).$promise.then(function(data) {
-        cache[data.id] = data;
-        return data;
-      });
+      return PublisherApi.update(publisher).$promise.then(saveCallback);
     } else {
-      return PublisherApi.save(publisher).$promise.then(function(data) {
-        cache[data.id] = data;
-        return data;
-      });
+      return PublisherApi.save(publisher).$promise.then(saveCallback);
     }
+  }
+
+  function saveCallback(data) {
+    cache[data.id] = data;
+    return data;
   }
 
 }

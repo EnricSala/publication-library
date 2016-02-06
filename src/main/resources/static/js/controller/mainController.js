@@ -6,7 +6,7 @@ angular
   .module('app.controllers')
   .controller('MainController', MainController);
 
-function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishers, PublicationApi, AuthorApi, PublisherApi) {
+function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishers) {
   $scope.publicationTypes = ['All', 'Journal', 'Conference', 'Book'];
   $scope.query = {
     text: '',
@@ -148,38 +148,35 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    * Show new/edit dialogs
    */
   $scope.showPublicationDialog = function(ev, publication) {
-    handleResourceDialog(ev, publication, 'PublicationFormController', 'publicationDialog.html',
-      function(newPublication) {
-        PublicationApi.save(newPublication, function(saved) {
-          console.log('Saved new publication: ' + JSON.stringify(saved));
-          $scope.publications.push(saved);
-        });
-      });
+    handleResourceDialog(ev, publication, 'PublicationFormController', 'publicationDialog.html').then(function(saved) {
+      console.log('Saved publication: ' + saved.title);
+      $scope.searchPublications();
+    });
   };
   $scope.showAuthorDialog = function(ev, author) {
-    handleResourceDialog(ev, author, 'AuthorFormController', 'authorDialog.html',
-      function(newAuthor) {
-        AuthorApi.save(newAuthor, function(saved) {
-          console.log('Saved new author: ' + JSON.stringify(saved));
-          $scope.authors.push(saved);
-        });
-      });
+    handleResourceDialog(ev, author, 'AuthorFormController', 'authorDialog.html').then(function(saved) {
+      console.log('Saved author: ' + saved.fullname);
+      return Authors.findAll();
+    }).then(function(data) {
+      $scope.authors = data;
+      $scope.searchPublications();
+    });
   };
   $scope.showPublisherDialog = function(ev, publisher) {
-    handleResourceDialog(ev, publisher, 'PublisherFormController', 'publisherDialog.html',
-      function(newPublisher) {
-        PublisherApi.save(newPublisher, function(saved) {
-          console.log('Saved new publisher: ' + JSON.stringify(saved));
-          $scope.publishers.push(saved);
-        });
-      });
+    handleResourceDialog(ev, publisher, 'PublisherFormController', 'publisherDialog.html').then(function(saved) {
+      console.log('Saved publisher: ' + saved.fullname);
+      return Publishers.findAll();
+    }).then(function(data) {
+      $scope.publishers = data;
+      $scope.searchPublications();
+    });
   };
 
   /*
    * Function to handle resource dialogs
    */
   function handleResourceDialog(ev, item, controller, template, newItemCallback) {
-    $mdDialog.show({
+    return $mdDialog.show({
       controller: controller,
       templateUrl: '/view/' + template,
       parent: angular.element(document.body),
@@ -190,16 +187,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
         init: item,
         readonly: !$scope.authenticated
       }
-    }).then(function(item) {
-      if (item.id) {
-        console.log('Clicked save: updating existing item');
-        item.$update();
-      } else {
-        console.log('Clicked save: creating new item');
-        newItemCallback(item);
-      }
-    }, function() {
-      console.log('Clicked Discard');
     });
   }
 

@@ -6,14 +6,22 @@ angular
   .module('app.controllers')
   .controller('PublicationFormController', publicationFormController);
 
-function publicationFormController($scope, $mdDialog, AuthorApi, PublisherApi, init, readonly) {
+function publicationFormController($scope, $mdDialog, Publications, Authors, Publishers, init, readonly) {
   $scope.readonly = readonly;
   $scope.initial = init || {
     authors: []
   };
   $scope.publication = angular.copy($scope.initial);
-  $scope.allAuthors = AuthorApi.query();
-  $scope.allPublishers = PublisherApi.query();
+
+  /*
+   * Load authors and publishers
+   */
+  Authors.findAll().then(function(data) {
+    $scope.allAuthors = data;
+  });
+  Publishers.findAll().then(function(data) {
+    $scope.allPublishers = data;
+  });
 
   /*
    * Initialize date field if present
@@ -40,14 +48,19 @@ function publicationFormController($scope, $mdDialog, AuthorApi, PublisherApi, i
   /*
    * Save and discard functions
    */
-  $scope.save = function(publication) {
+  $scope.save = function() {
     if ($scope.publishDate) {
       $scope.publication.publishDate = $scope.publishDate.getTime();
     }
-    angular.copy($scope.publication, $scope.initial);
-    $mdDialog.hide($scope.initial);
+    Publications.save($scope.publication).then(function(saved) {
+      console.log('Saved publication: ' + saved.title);
+      $mdDialog.hide(saved);
+    }, function(err) {
+      console.log('Error saving publication');
+    });
   }
   $scope.discard = function() {
+    console.log('Discarding changes on publication form');
     $mdDialog.cancel();
   }
 
