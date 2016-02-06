@@ -49,9 +49,9 @@ function publicationFormController($scope, $mdDialog, Publications, Authors, Pub
    * Save and discard functions
    */
   $scope.save = function() {
-    if ($scope.publishDate) {
-      $scope.publication.publishDate = $scope.publishDate.getTime();
-    }
+    $scope.publication.publishDate = $scope.publishDate ?
+      $scope.publishDate.getTime() : new Date().getTime();
+
     Publications.save($scope.publication).then(function(saved) {
       console.log('Saved publication: ' + saved.title);
       $mdDialog.hide(saved);
