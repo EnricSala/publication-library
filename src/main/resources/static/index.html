@@ -91,7 +91,7 @@
 						</md-input-container>
 						<md-input-container class="type-selector md-block">
 							<label>Type</label>
-							<md-select ng-model="query.type">
+							<md-select ng-model="query.type" md-on-close="doNewSearch()">
 								<md-option ng-repeat="type in publicationTypes" value="{{ type }}">{{ type }}</md-option>
 							</md-select>
 						</md-input-container>
