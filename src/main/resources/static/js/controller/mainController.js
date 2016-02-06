@@ -12,8 +12,8 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
     text: '',
     author: '',
     type: $scope.publicationTypes[0],
-    minYear: 1990,
-    maxYear: new Date().getFullYear(),
+    after: 1990,
+    before: new Date().getFullYear(),
     page: 0
   };
   $scope.authorFilter = '';
@@ -42,12 +42,17 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    * Configure the year slider
    */
   $scope.yearSliderConfig = {
-    floor: $scope.query.minYear,
-    ceil: $scope.query.maxYear,
+    floor: $scope.query.after,
+    ceil: $scope.query.before,
     draggableRange: true,
     keyboardSupport: false,
-    hideLimitLabels: true
+    hideLimitLabels: true,
+    onEnd: onSliderChanged
   };
+
+  function onSliderChanged(id, value) {
+    $scope.doNewSearch();
+  }
 
   /*
    * Search Author
@@ -288,7 +293,7 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   }
 
   /*
-   * Hande Navigation buttons
+   * Handle Navigation buttons
    */
   $scope.showPagingButtons = function() {
     return $scope.metadata.totalPages > 0;
