@@ -124,21 +124,19 @@ function AuthorService($q, Utils, AuthorApi) {
       console.log('Not in cache, hitting author api');
       return AuthorApi.get({
         id: id
-      }).$promise.then(function(data) {
-        cache[data.id] = data;
-      });
+      }).$promise.then(cacheAndReturn);
     }
   }
 
   function save(author) {
     if (author.id) {
-      return AuthorApi.update(author).$promise.then(saveCallback);
+      return AuthorApi.update(author).$promise.then(cacheAndReturn);
     } else {
-      return AuthorApi.save(author).$promise.then(saveCallback);
+      return AuthorApi.save(author).$promise.then(cacheAndReturn);
     }
   }
 
-  function saveCallback(data) {
+  function cacheAndReturn(data) {
     cache[data.id] = data;
     return data;
   }
@@ -172,21 +170,19 @@ function PublisherService($q, Utils, PublisherApi) {
       console.log('Not in cache, hitting publisher api');
       return PublisherApi.get({
         id: id
-      }).$promise.then(function(data) {
-        cache[data.id] = data;
-      });
+      }).$promise.then(cacheAndReturn);
     }
   }
 
   function save(publisher) {
     if (publisher.id) {
-      return PublisherApi.update(publisher).$promise.then(saveCallback);
+      return PublisherApi.update(publisher).$promise.then(cacheAndReturn);
     } else {
-      return PublisherApi.save(publisher).$promise.then(saveCallback);
+      return PublisherApi.save(publisher).$promise.then(cacheAndReturn);
     }
   }
 
-  function saveCallback(data) {
+  function cacheAndReturn(data) {
     cache[data.id] = data;
     return data;
   }
