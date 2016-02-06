@@ -149,13 +149,11 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
    */
   $scope.showPublicationDialog = function(ev, publication) {
     handleResourceDialog(ev, publication, 'PublicationFormController', 'publicationDialog.html').then(function(saved) {
-      console.log('Saved publication: ' + saved.title);
       $scope.searchPublications();
     });
   };
   $scope.showAuthorDialog = function(ev, author) {
     handleResourceDialog(ev, author, 'AuthorFormController', 'authorDialog.html').then(function(saved) {
-      console.log('Saved author: ' + saved.fullname);
       return Authors.findAll();
     }).then(function(data) {
       $scope.authors = data;
@@ -164,7 +162,6 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   };
   $scope.showPublisherDialog = function(ev, publisher) {
     handleResourceDialog(ev, publisher, 'PublisherFormController', 'publisherDialog.html').then(function(saved) {
-      console.log('Saved publisher: ' + saved.fullname);
       return Publishers.findAll();
     }).then(function(data) {
       $scope.publishers = data;

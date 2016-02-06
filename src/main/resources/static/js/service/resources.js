@@ -40,7 +40,7 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
   }
 
   function save(publication) {
-    // Conver publisher and author list to ids
+    // Convert publisher and author list to ids
     publication.publisherId = publication.publisher ? publication.publisher.id : null;
     publication.authorIds = publication.authors.map(function(author) {
       return author.id;
