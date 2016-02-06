@@ -230,19 +230,10 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
       .ok('Remove')
       .cancel('Cancel');
     $mdDialog.show(confirm).then(function() {
-      removePublication(publication);
-    });
-  }
-
-  function removePublication(publication) {
-    console.log('Removing publication: ' + publication.title);
-    PublicationApi.remove({
-      id: publication.id
-    }, function() {
-      var idx = $scope.publications.indexOf(publication);
-      if (idx > -1) {
-        $scope.publications.splice(idx, 1);
-      }
+      console.log('Removing publication: ' + publication.title);
+      return Publications.remove(publication);
+    }).then(function() {
+      $scope.doNewSearch();
     });
   }
 

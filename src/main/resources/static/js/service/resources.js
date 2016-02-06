@@ -50,9 +50,7 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
   function remove(publication) {
     return PublicationApi.remove({
       id: publication.id
-    }).$promise.then(function() {
-      return publication;
-    });
+    }).$promise;
   }
 
   function runQuery(query) {
