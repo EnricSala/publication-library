@@ -15,6 +15,10 @@ function authorFormController($scope, $mdDialog, Authors, init, readonly) {
    * Save and discard functions
    */
   $scope.save = function() {
+    if (!$scope.author.photo) {
+      // Assign default photo if empty
+      $scope.author.photo = '/photos/default.jpg';
+    }
     Authors.save($scope.author).then(function(saved) {
       console.log('Saved author: ' + saved.fullname);
       $mdDialog.hide(saved);
