@@ -23,7 +23,7 @@ function authorFormController($scope, $mdDialog, Authors, init, readonly) {
     });
   }
   $scope.discard = function() {
-    console.log('Discarding changes on publication form');
+    console.log('Discarding changes on author form');
     $mdDialog.cancel();
   }
 
