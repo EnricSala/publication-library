@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,7 @@ public class PublicationController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Publication post(@RequestBody Publication publication) {
+	public Publication post(@RequestBody @Valid Publication publication) {
 		log.info("POST: {}", publication);
 		Publication saved = null;
 		if (publication.getId() != null) {
@@ -111,7 +112,7 @@ public class PublicationController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public Publication put(@RequestBody Publication publication) {
+	public Publication put(@RequestBody @Valid Publication publication) {
 		log.info("PUT: {}", publication);
 		Publication saved = null;
 		if (publication.getId() != null) {

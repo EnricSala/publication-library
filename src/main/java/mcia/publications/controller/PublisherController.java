@@ -2,6 +2,8 @@ package mcia.publications.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +37,7 @@ public class PublisherController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Publisher post(@RequestBody Publisher publisher) {
+	public Publisher post(@RequestBody @Valid Publisher publisher) {
 		log.info("POST: {}", publisher);
 		Publisher saved = null;
 		if (publisher.getId() != null) {
@@ -48,7 +50,7 @@ public class PublisherController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public Publisher put(@RequestBody Publisher publisher) {
+	public Publisher put(@RequestBody @Valid Publisher publisher) {
 		Publisher saved = null;
 		log.info("PUT: {}", publisher);
 		if (publisher.getId() != null) {
