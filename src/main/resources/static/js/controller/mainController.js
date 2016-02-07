@@ -101,47 +101,43 @@ function MainController($scope, $mdDialog, Auth, Publications, Authors, Publishe
   };
 
   /*
-   * Menu for adding content
+   * FAV Menu
    */
   $scope.menuItems = [{
     name: "New Publication",
     icon: "/img/icon/publication-plus.svg",
-    sensitive: true
+    sensitive: true,
+    onClick: function(ev) {
+      console.log('Open new publication dialog');
+      $scope.showPublicationDialog(ev);
+    }
   }, {
     name: "New Author",
     icon: "/img/icon/author-plus.svg",
-    sensitive: true
+    sensitive: true,
+    onClick: function(ev) {
+      console.log('Open new author dialog');
+      $scope.showAuthorDialog(ev);
+    }
   }, {
     name: "New Publisher",
     icon: "/img/icon/folder-plus.svg",
-    sensitive: true
+    sensitive: true,
+    onClick: function(ev) {
+      console.log('Open new publisher dialog');
+      $scope.showPublisherDialog(ev);
+    }
   }, {
     name: "Export Publications",
     icon: "/img/icon/file-export.svg",
-    sensitive: false
-  }];
-  $scope.isOptionVisible = function(option) {
-    return !option.sensitive || $scope.authenticated;
-  }
-  $scope.handleMenuClick = function(ev, idx) {
-    switch (idx) {
-      case 0:
-        console.log('Open new publication dialog');
-        $scope.showPublicationDialog(ev);
-        break;
-      case 1:
-        console.log('Open new author dialog');
-        $scope.showAuthorDialog(ev);
-        break;
-      case 2:
-        console.log('Open new publisher dialog');
-        $scope.showPublisherDialog(ev);
-        break;
-      case 3:
-        console.log('Export current selection');
-        $scope.showReferenceExportDialog(ev, $scope.publications);
-        break;
+    sensitive: false,
+    onClick: function(ev) {
+      console.log('Export current selection');
+      $scope.showReferenceExportDialog(ev, $scope.publications);
     }
+  }];
+  $scope.favMenuFilter = function(option) {
+    return !option.sensitive || $scope.authenticated;
   }
 
   /*
