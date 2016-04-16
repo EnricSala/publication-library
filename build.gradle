@@ -15,6 +15,10 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 
+springBoot {
+    mainClass = "mcia.publications.Application"
+}
+
 jar {
 	baseName = 'publication-library'
 	version = '0.0.1-SNAPSHOT'
