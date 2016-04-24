@@ -3,6 +3,9 @@
   height: 45px;
   margin-right: 16px;
 }
+.nav-location {
+  font-weight: bold;
+}
 .author-search md-input-container {
   margin: 32px 40px 0px 30px;
 }

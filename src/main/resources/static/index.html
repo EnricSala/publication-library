@@ -21,14 +21,24 @@
 			</div>
 			<h2>Publication Library</h2>
 			<span flex></span>
+			<!-- Navigation buttons-->
 			<div layout="row" layout-align="center center">
-				<md-button ng-click="showLoginDialog($event)" ng-hide="authenticated">
+				<md-button ng-href="#/publications" ng-class="{'nav-location': isLocation('/publications')}">Publications</md-button>
+				<span>|</span>
+				<md-button ng-href="#/authors" ng-class="{'nav-location': isLocation('/authors')}">Authors</md-button>
+				<span>|</span>
+				<md-button ng-href="#/publishers" ng-class="{'nav-location': isLocation('/publishers')}">Publishers</md-button>
+			</div>
+			<span flex></span>
+			<!-- Login buttons-->
+			<div layout="row" layout-align="center center">
+				<md-button ng-click="handleLogin($event)" ng-hide="auth.authenticated">
 					<div layout="row" layout-margin layout-align="center center">
 						<md-icon md-svg-src="/img/icon/login.svg"></md-icon>
 						<span>Login</span>
 					</div>
 				</md-button>
-				<md-button ng-click="logout()" ng-show="authenticated">
+				<md-button ng-click="handleLogout($event)" ng-show="auth.authenticated">
 					<div layout="row" layout-margin layout-align="center center">
 						<md-icon md-svg-src="/img/icon/logout.svg"></md-icon>
 						<span>Logout</span>
@@ -38,130 +48,11 @@
 		</div>
 	</md-toolbar>
 
-	<!-- FAV menu-->
-	<md-fab-speed-dial md-open="isMenuOpen" ng-mouseenter="isMenuOpen=true" ng-mouseleave="isMenuOpen=false" md-direction="up" class="md-scale md-fab-bottom-right">
-		<md-fab-trigger>
-			<md-button aria-label="menu" class="md-fab md-warn">
-				<md-icon md-svg-src="/img/icon/menu.svg" aria-label="menu"></md-icon>
-			</md-button>
-		</md-fab-trigger>
-		<md-fab-actions ng-if="isMenuOpen">
-			<md-button ng-repeat="item in menuItems | filter:favMenuFilter" ng-click="item.onClick($event)" class="md-fab md-raised md-mini" aria-label="{{item.name}}">
-				<md-tooltip md-direction="left">{{item.name}}</md-tooltip>
-				<md-icon md-svg-src="{{item.icon}}" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
-			</md-button>
-		</md-fab-actions>
-	</md-fab-speed-dial>
-
-	<!-- Main content -->
-	<md-content flex layout="row">
-
-		<!-- Sidenav author filter-->
-		<md-sidenav md-is-locked-open="true" class="md-whiteframe-z2">
-			<md-content layout="column" class="author-search">
-				<form name="authorForm">
-					<div>
-						<md-input-container flex class="md-block">
-							<label>Author</label>
-							<input ng-model="authorFilter"></input>
-						</md-input-container>
-					</div>
-				</form>
-				<md-list class="author-list">
-					<md-list-item ng-repeat="author in authors | filter:{fullname: authorFilter} | orderBy:'fullname'" ng-click="selectAuthor(author)" ng-class="author.id === query.author ? 'selected-author' : ''">
-						<img alt="{{ author.fullname }}" ng-src="{{ author.photo }}" class="md-avatar" />
-						<p>{{ author.fullname }}</p>
-					</md-list-item>
-				</md-list>
-			</md-content>
-		</md-sidenav>
-
-		<!-- Publications view -->
-		<md-content id="content" flex class="md-padding">
-
-			<!-- Search form -->
-			<md-content id="search-form" layout-padding class="md-whiteframe-z1">
-				<form name="searchForm">
-					<div layout="row" layout-sm="column">
-						<md-input-container class="md-block" flex>
-							<label>Search</label>
-							<input ng-model="query.text" ng-change="doNewSearch()" ng-model-options="{debounce: 500}"></input>
-						</md-input-container>
-						<md-input-container class="type-selector md-block">
-							<label>Type</label>
-							<md-select ng-model="query.type" md-on-close="doNewSearch()">
-								<md-option ng-repeat="type in publicationTypes" value="{{ type }}">{{ type }}</md-option>
-							</md-select>
-						</md-input-container>
-						<div class="year-slider" layout="column" layout-align="end center">
-							<rzslider rz-slider-model="query.after" rz-slider-high="query.before" rz-slider-options="yearSliderConfig"></rzslider>
-						</div>
-					</div>
-				</form>
-			</md-content>
-
-			<!-- Publication cards -->
-			<div flex layout="row" layout-wrap layout-align="center start">
-				<md-card flex="95" flex-gt-lg="45" ng-repeat="pub in publications" class="publication">
-					<md-card-header>
-						<md-card-avatar class="publication-author">
-							<img ng-src="{{ pub.authors[0].photo }}" class="md-avatar" alt="{{ pub.authors[0].fullname }}" ng-click="showAuthorDialog($event, pub.authors[0])" />
-						</md-card-avatar>
-						<md-card-header-text>
-							<span class="md-title">{{ pub.authors[0].fullname }}</span>
-							<span class="md-subhead">{{ getSecondaryAuthors(pub.authors) }}</span>
-						</md-card-header-text>
-						<md-menu md-position-mode="target-right target">
-							<md-button class="md-icon-button" ng-click="openPublicationMenu($mdOpenMenu, $event)" aria-label="Publication Menu">
-								<md-icon md-menu-origin md-svg-icon="/img/icon/dots-vertical.svg"></md-icon>
-							</md-button>
-							<md-menu-content width="3">
-								<md-menu-item>
-									<md-button md-menu-align-target ng-click="clickPublicationDetails($event, pub)">{{ authenticated ? 'Edit' : 'View' }} details</md-button>
-								</md-menu-item>
-								<md-menu-item ng-if="pub.url">
-									<md-button ng-click="clickPublicationWebsite($event, pub)">Visit website</md-button>
-								</md-menu-item>
-								<md-menu-item>
-									<md-button ng-click="clickPublicationReference($event, pub)">Export reference</md-button>
-								</md-menu-item>
-								<md-menu-item ng-if="authenticated">
-									<md-button ng-click="clickRemovePublication($event, pub)">Remove publication</md-button>
-								</md-menu-item>
-							</md-menu-content>
-						</md-menu>
-					</md-card-header>
-					<md-card-title>
-						<md-card-title-text>
-							<span class="md-title">{{ pub.title }}</span>
-							<span class="md-subhead" ng-click="showPublisherDialog($event, pub.publisher)">
-								 {{ pub.publisher.acronym }} ({{ pub.publishDate | date:'yyyy-MM' }}) - {{ pub.publisher.fullname | limitTo:60 }}{{ pub.publisher.fullname.length > 60 ? '...' : '' }}
-							</span>
-						</md-card-title-text>
-					</md-card-title>
-					<md-card-content>
-						<p class="md-body-1">
-							{{ pub.summary | limitTo:475 }}{{ pub.summary.length > 475 ? '...' : '' }}
-						</p>
-					</md-card-content>
-				</md-card>
-			</div>
-
-			<div ng-if="showPagingButtons()" flex layout="row" layout-align="center center" layout-padding>
-				<md-button ng-click="navPrevPage()" ng-if="showPrevButton()" class="md-icon-button" aria-label="Previous Page">
-					<md-icon md-svg-src="/img/icon/chevron-left.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
-				</md-button>
-				<span>Page {{ metadata.page + 1 }} / {{ metadata.totalPages }}</span>
-				<md-button ng-click="navNextPage()" ng-if="showNextButton()" class="md-icon-button" aria-label="Next Page">
-					<md-icon md-svg-src="/img/icon/chevron-right.svg" style="color:rgba(0, 0, 0, 0.54);"></md-icon>
-				</md-button>
-			</div>
-
-		</md-content>
-	</md-content>
+	<div ng-view flex layout="row"></div>
 
 	<!-- AngularJS Libraries -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-route.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-animate.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-resource.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.4/angular-aria.min.js"></script>
@@ -185,6 +76,9 @@
 
 	<!-- Controllers -->
 	<script src="/js/controller/mainController.js"></script>
+	<script src="/js/controller/publicationsController.js"></script>
+	<script src="/js/controller/authorsController.js"></script>
+	<script src="/js/controller/publishersController.js"></script>
 	<script src="/js/controller/loginFormController.js"></script>
 	<script src="/js/controller/publicationFormController.js"></script>
 	<script src="/js/controller/authorFormController.js"></script>
