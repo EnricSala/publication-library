@@ -11,16 +11,19 @@ function loginFormController($scope, $mdDialog, Auth) {
   $scope.error = false;
 
   $scope.login = function() {
-    Auth.login($scope.credentials, function(authenticated) {
-      if (authenticated) {
-        $mdDialog.hide();
-      } else {
-        $scope.credentials = {};
-        $scope.error = true;
-      }
-    });
+    console.log('Clicked attemp login');
+    Auth.login($scope.credentials)
+      .then(function(authenticated) {
+        if (authenticated) {
+          $mdDialog.hide();
+        } else {
+          $scope.credentials = {};
+          $scope.error = true;
+        }
+      });
   }
   $scope.cancel = function() {
+    console.log('Clicked cancel login');
     $mdDialog.cancel();
   }
 

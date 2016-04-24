@@ -15,32 +15,35 @@ function AuthService($http) {
   };
   return auth;
 
-  function login(credentials, callback) {
-    var headers = {}
+  function login(credentials) {
+    var config = {}
     if (credentials && credentials.user && credentials.password) {
-      headers.authorization = "Basic " + btoa(credentials.user + ":" + credentials.password);
+      config.headers = {};
+      config.headers.authorization = "Basic " +
+        btoa(credentials.user + ":" + credentials.password);
     }
-    $http.get('/user', {
-      headers: headers
-    }).success(function(data) {
-      auth.authenticated = data.name ? true : false;
-      console.log('Logged in: ' + (auth.authenticated ? 'yes' : 'no'));
-      callback && callback(auth.authenticated);
-    }).error(function() {
-      console.log('Login failed');
-      auth.authenticated = false;
-      callback && callback(false);
-    });
+    return $http
+      .get('/user', config)
+      .then(function(response) {
+        auth.authenticated = response.data.name ? true : false;
+        console.log(auth.authenticated ? 'Login success' : 'Login failed');
+        return auth.authenticated;
+      }, function() {
+        console.log('Login failed');
+        return false;
+      });
   }
 
-  function logout(callback) {
-    auth.authenticated = false;
-    $http.post('/logout', {})
-      .success(function(data) {
+  function logout() {
+    return $http
+      .post('/logout')
+      .then(function() {
+        console.log('Logout success')
         auth.authenticated = false;
-        callback && callback(false);
-      }).error(function() {
-        callback && callback(auth.authenticated);
+        return auth.authenticated;
+      }, function() {
+        console.log('Logout failed')
+        return auth.authenticated;
       });
   }
 
