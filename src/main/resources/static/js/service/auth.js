@@ -8,12 +8,11 @@ angular
 
 function AuthService($http) {
 
-  var auth = {
+  return {
     authenticated: false,
     login: login,
     logout: logout
   };
-  return auth;
 
   function login(credentials) {
     var config = {}
@@ -24,11 +23,11 @@ function AuthService($http) {
     }
     return $http
       .get('/user', config)
-      .then(function(response) {
+      .then(function (response) {
         auth.authenticated = response.data.name ? true : false;
         console.log(auth.authenticated ? 'Login success' : 'Login failed');
         return auth.authenticated;
-      }, function() {
+      }, function () {
         console.log('Login failed');
         return false;
       });
@@ -37,11 +36,11 @@ function AuthService($http) {
   function logout() {
     return $http
       .post('/logout')
-      .then(function() {
+      .then(function () {
         console.log('Logout success')
         auth.authenticated = false;
         return auth.authenticated;
-      }, function() {
+      }, function () {
         console.log('Logout failed')
         return auth.authenticated;
       });

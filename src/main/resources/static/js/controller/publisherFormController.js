@@ -14,15 +14,15 @@ function publisherFormController($scope, $mdDialog, Publishers, init, readonly) 
   /*
    * Save and discard functions
    */
-  $scope.save = function() {
-    Publishers.save($scope.publisher).then(function(saved) {
+  $scope.save = function () {
+    Publishers.save($scope.publisher).then(function (saved) {
       console.log('Saved publisher: ' + saved.fullname);
       $mdDialog.hide(saved);
-    }, function(err) {
+    }, function (err) {
       console.log('Error saving publisher');
     });
   }
-  $scope.discard = function() {
+  $scope.discard = function () {
     console.log('Discarding changes on publisher form');
     $mdDialog.cancel();
   }

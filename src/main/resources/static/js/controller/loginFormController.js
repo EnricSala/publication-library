@@ -10,10 +10,10 @@ function loginFormController($scope, $mdDialog, Auth) {
   $scope.credentials = {};
   $scope.error = false;
 
-  $scope.login = function() {
+  $scope.login = function () {
     console.log('Clicked attemp login');
     Auth.login($scope.credentials)
-      .then(function(authenticated) {
+      .then(function (authenticated) {
         if (authenticated) {
           $mdDialog.hide();
         } else {
@@ -22,7 +22,7 @@ function loginFormController($scope, $mdDialog, Auth) {
         }
       });
   }
-  $scope.cancel = function() {
+  $scope.cancel = function () {
     console.log('Clicked cancel login');
     $mdDialog.cancel();
   }

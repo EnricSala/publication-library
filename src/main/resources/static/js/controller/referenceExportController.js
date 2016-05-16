@@ -9,7 +9,7 @@ angular
 function referenceExportController($scope, $mdDialog, init) {
   $scope.publications = init;
 
-  $scope.close = function() {
+  $scope.close = function () {
     $mdDialog.cancel();
   }
 

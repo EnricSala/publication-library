@@ -5,6 +5,7 @@ angular
   .factory('Publishers', PublisherService)
 
 function PublicationService($q, PublicationApi, Authors, Publishers) {
+
   return {
     init: init,
     search: search,
@@ -18,13 +19,13 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
       authors: Authors.findAll(),
       publishers: Publishers.findAll(),
       publications: runQuery()
-    }).then(function(res) {
+    }).then(function (res) {
       holder = res;
       console.log('Loaded ' + res.authors.length + ' authors');
       console.log('Loaded ' + res.publishers.length + ' publisers');
       console.log('Loaded ' + res.publications.length + ' publications');
       return wireUp(res.publications);
-    }).then(function(list) {
+    }).then(function (list) {
       return {
         authors: holder.authors,
         publishers: holder.publishers,
@@ -34,7 +35,7 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
   }
 
   function search(query) {
-    return runQuery(query).then(function(list) {
+    return runQuery(query).then(function (list) {
       return wireUp(list);
     });
   }
@@ -42,7 +43,7 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
   function save(publication) {
     // Convert publisher and author list to ids
     publication.publisherId = publication.publisher ? publication.publisher.id : null;
-    publication.authorIds = publication.authors.map(function(author) {
+    publication.authorIds = publication.authors.map(function (author) {
       return author.id;
     });
     // If existing do put, else do post
@@ -69,7 +70,7 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
       after: params.after,
       before: params.before,
       page: params.page
-    }).$promise.then(function(res) {
+    }).$promise.then(function (res) {
       console.log('Search returned: ' + JSON.stringify(res.$metadata));
       return res;
     });
@@ -77,19 +78,19 @@ function PublicationService($q, PublicationApi, Authors, Publishers) {
 
   function wireUp(publications) {
     var promises = [];
-    publications.forEach(function(pub) {
+    publications.forEach(function (pub) {
       promises.push($q.all({
         publisher: Publishers.findById(pub.publisherId),
-        authors: $q.all(pub.authorIds.map(function(id) {
+        authors: $q.all(pub.authorIds.map(function (id) {
           return Authors.findById(id);
         }))
-      }).then(function(data) {
+      }).then(function (data) {
         pub.publisher = data.publisher;
         pub.authors = data.authors;
         return pub;
       }));
     });
-    return $q.all(promises).then(function(data) {
+    return $q.all(promises).then(function (data) {
       data.$metadata = publications.$metadata;
       return data;
     });
@@ -110,7 +111,7 @@ function AuthorService($q, Utils, AuthorApi) {
   };
 
   function findAll() {
-    return AuthorApi.query().$promise.then(function(list) {
+    return AuthorApi.query().$promise.then(function (list) {
       cache = Utils.toMap(list);
       return list;
     });
@@ -156,7 +157,7 @@ function PublisherService($q, Utils, PublisherApi) {
   };
 
   function findAll() {
-    return PublisherApi.query().$promise.then(function(list) {
+    return PublisherApi.query().$promise.then(function (list) {
       cache = Utils.toMap(list);
       return list;
     });

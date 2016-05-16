@@ -17,7 +17,7 @@ function MainController($scope, $location, $mdDialog, Auth) {
   /*
    * Show login dialog
    */
-  $scope.handleLogin = function(ev) {
+  $scope.handleLogin = function (ev) {
     $mdDialog.show({
       controller: 'LoginFormController',
       templateUrl: '/view/loginDialog.html',
@@ -31,14 +31,14 @@ function MainController($scope, $location, $mdDialog, Auth) {
   /*
    * Handle logout
    */
-  $scope.handleLogout = function(ev) {
+  $scope.handleLogout = function (ev) {
     Auth.logout();
   }
 
   /*
    * Check if location matches
    */
-  $scope.isLocation = function(path) {
+  $scope.isLocation = function (path) {
     return $location.path() === path;
   }
 

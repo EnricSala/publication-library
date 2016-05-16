@@ -12,23 +12,23 @@ angular
       'app.services',
       'app.controllers'
     ])
-  .config(function($mdThemingProvider) {
+  .config(function ($mdThemingProvider) {
     $mdThemingProvider
       .theme('default')
       .primaryPalette('indigo')
       .accentPalette('red');
   })
-  .config(function($mdDateLocaleProvider) {
+  .config(function ($mdDateLocaleProvider) {
     var dateFmt = 'YYYY-MM-DD';
-    $mdDateLocaleProvider.formatDate = function(date) {
+    $mdDateLocaleProvider.formatDate = function (date) {
       return moment(date).format(dateFmt);
     };
-    $mdDateLocaleProvider.parseDate = function(str) {
+    $mdDateLocaleProvider.parseDate = function (str) {
       var m = moment(str, dateFmt);
       return m.isValid() ? m.toDate() : new Date(NaN);
     };
   })
-  .config(function($routeProvider) {
+  .config(function ($routeProvider) {
     $routeProvider
       .when('/publications', {
         templateUrl: 'view/publications.html',
@@ -42,9 +42,7 @@ angular
         templateUrl: 'view/publishers.html',
         controller: 'PublishersController'
       })
-      .otherwise({
-        redirectTo: '/publications'
-      });
+      .otherwise({ redirectTo: '/publications' });
   });
 
 angular
