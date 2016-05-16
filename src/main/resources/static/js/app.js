@@ -8,6 +8,7 @@ angular
       'ngRoute',
       'ngMaterial',
       'ngResource',
+      'ui.bootstrap',
       'rzModule',
       'app.services',
       'app.controllers'
