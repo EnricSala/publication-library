@@ -8,11 +8,12 @@ angular
 
 function AuthService($http) {
 
-  return {
+  var auth = {
     authenticated: false,
     login: login,
     logout: logout
   };
+  return auth;
 
   function login(credentials) {
     var config = {}
