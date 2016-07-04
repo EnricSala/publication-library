@@ -1,0 +1,48 @@
+<md-dialog ng-cloak flex="55" flex-sm="100">
+  <form id="authorForm">
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ (readonly ? 'View' : (vm.author.id ? 'Edit' : 'New')) + ' author'}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="row" layout-margin>
+
+        <div flex="40" layout="column" class="md-whiteframe-z1" layout-align="center center" layout-padding>
+          <img ng-src="{{ vm.author.photo }}"/>
+        </div>
+
+        <div flex="60" layout="column" layout-margin>
+          <!-- Fullname field -->
+          <md-input-container class="md-block">
+            <label>Full name</label>
+            <input ng-model="vm.author.fullname">
+          </md-input-container>
+
+          <!-- Email field -->
+          <md-input-container class="md-block">
+            <label>Email</label>
+            <input ng-model="vm.author.email">
+          </md-input-container>
+
+          <!-- Photo field -->
+          <md-input-container class="md-block">
+            <label>Photo URL</label>
+            <input ng-model="vm.author.photo" ng-model-options="{debounce: 1200}">
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <!-- Save or discard buttons -->
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="vm.discard()">Cancel</md-button>
+      <md-button ng-click="vm.save()" ng-hide="vm.readonly" class="md-primary">Save</md-button>
+      <span flex="5"></span>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

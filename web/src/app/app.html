@@ -1,0 +1,44 @@
+<!-- Application toolbar -->
+<md-toolbar layout="row">
+  <div class="md-toolbar-tools" flex layout="row">
+
+    <!-- App logo and title -->
+    <div layout-align="start center" id="app-logo">
+      <img src="/img/mcia_logo.png"/>
+    </div>
+    <h2>Publication Library</h2>
+
+    <span flex></span>
+
+    <!-- Navigation buttons-->
+    <div layout="row" layout-align="center center">
+      <md-button ng-href="#/publications" ng-class="{'nav-location': main.locationMatches('/publications')}">Publications</md-button>
+      <span>|</span>
+      <md-button ng-href="#/authors" ng-class="{'nav-location': main.locationMatches('/authors')}">Authors</md-button>
+      <span>|</span>
+      <md-button ng-href="#/publishers" ng-class="{'nav-location': main.locationMatches('/publishers')}">Publishers</md-button>
+    </div>
+
+    <span flex></span>
+
+    <!-- Login buttons-->
+    <div layout="row" layout-align="center center">
+      <md-button ng-click="main.handleLogin($event)" ng-hide="main.Auth.authenticated">
+        <div layout="row" layout-margin layout-align="center center">
+          <md-icon md-svg-src="/img/icon/login.svg"></md-icon>
+          <span>Login</span>
+        </div>
+      </md-button>
+      <md-button ng-click="main.handleLogout($event)" ng-show="main.Auth.authenticated">
+        <div layout="row" layout-margin layout-align="center center">
+          <md-icon md-svg-src="/img/icon/logout.svg"></md-icon>
+          <span>Logout</span>
+        </div>
+      </md-button>
+    </div>
+
+  </div>
+</md-toolbar>
+
+<!-- View containter -->
+<div ng-view flex layout="row"></div>

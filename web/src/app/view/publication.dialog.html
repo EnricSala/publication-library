@@ -1,0 +1,86 @@
+<md-dialog ng-cloak flex="100" flex-gt-md="70">
+  <form id="publicationForm">
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{ (vm.readonly ? 'View' : (vm.publication.id ? 'Edit' : 'New')) + ' publication'}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <!-- Autocomplete authors -->
+        <md-input-container class="md-block">
+          <label>Authors</label>
+          <md-contact-chips ng-model="vm.publication.authors" md-contacts="vm.querySearch($query)" md-contact-name="fullname" md-contact-image="photo" md-require-match="true" md-highlight-flags="i" filter-selected="true"></md-contact-chips>
+          <md-list class="fixedRows">
+            <md-list-item class="md-2-line contact-item" ng-repeat="(idx, author) in vm.allAuthors" ng-if="vm.allAuthors.indexOf(author) < 0">
+              <img ng-src="{{author.photo}}" class="md-avatar" alt="{{author.fullname}}"/>
+              <div class="md-list-item-text compact">
+                <h3>{{author.fullname}}</h3>
+              </div>
+            </md-list-item>
+          </md-list>
+        </md-input-container>
+
+        <!-- Publisher and date fields -->
+        <div layout="row">
+          <md-input-container flex class="md-block publisher-selector">
+            <label>Publisher</label>
+            <md-select ng-model="vm.publication.publisher" ng-model-options="{trackBy: '$value.id'}">
+              <md-optgroup label="Journal">
+                <md-option ng-value="publisher" ng-repeat="publisher in vm.allPublishers | filter: {type: 'journal'}">
+                  {{ publisher.acronym + ' - ' + publisher.fullname }}
+                </md-option>
+              </md-optgroup>
+              <md-optgroup label="Conference">
+                <md-option ng-value="publisher" ng-repeat="publisher in vm.allPublishers | filter: {type: 'conference'}">
+                  {{ publisher.acronym + ' - ' + publisher.fullname }}
+                </md-option>
+              </md-optgroup>
+              <md-optgroup label="Book">
+                <md-option ng-value="publisher" ng-repeat="publisher in vm.allPublishers | filter: {type: 'book'}">
+                  {{ publisher.acronym + ' - ' + publisher.fullname }}
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+          <md-datepicker ng-model="vm.publishDate" md-placeholder="Date"></md-datepicker>
+        </div>
+
+        <!-- Title field -->
+        <md-input-container class="md-block">
+          <label>Title</label>
+          <input ng-model="vm.publication.title">
+        </md-input-container>
+
+        <!-- Abstract textarea -->
+        <md-input-container class="md-block">
+          <label>Abstract</label>
+          <textarea ng-model="vm.publication.summary" md-maxlength="2000" rows="4"></textarea>
+        </md-input-container>
+
+        <!-- URL field -->
+        <md-input-container class="md-block">
+          <label>Website</label>
+          <input ng-model="vm.publication.url">
+        </md-input-container>
+
+        <!-- Citation textarea -->
+        <md-input-container class="md-block">
+          <label>Reference</label>
+          <textarea ng-model="vm.publication.reference" md-maxlength="500" rows="2"></textarea>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <!-- Save or discard buttons -->
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="vm.discard()">Cancel</md-button>
+      <md-button ng-click="vm.save()" ng-hide="vm.readonly" class="md-primary">Save</md-button>
+      <span flex="5"></span>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

@@ -1,0 +1,92 @@
+#app-logo {
+  width: 45px;
+  height: 45px;
+  margin-right: 16px;
+}
+.nav-location {
+  font-weight: bold;
+}
+.author-search md-input-container {
+  margin: 32px 40px 0px 30px;
+}
+.author-search .md-errors-spacer {
+  min-height: 0px;
+}
+.author-search md-list {
+  margin: 8px 12px;
+}
+.author-list p {
+  line-height: 24px;
+}
+.selected-author {
+  background-color: rgba(63, 81, 181, 0.2);
+}
+#content {
+  /* Set publication backgroud to light gray  */
+  background-color: rgb(245, 245, 245);
+}
+#search-form {
+  margin-bottom: 12px;
+  overflow: visible;
+}
+#search-form .md-errors-spacer {
+  /* Remove the space reserved for errors */
+  min-height: 0px;
+}
+#search-form .type-selector {
+  width: 120px;
+  margin-left: 16px;
+}
+.year-slider {
+  /* Use fixed width because the slider does not
+  render properly when using flex */
+  width: 250px;
+  padding-bottom: 4px;
+  margin-left: 16px;
+}
+.publication md-card-title {
+  padding: 0px 16px;
+}
+.publication p, span {
+  text-align: justify;
+  text-justify: inter-word;
+}
+.publication md-menu {
+  padding: 0px;
+}
+.publication-author img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.publication md-card-title-text .md-subhead {
+  cursor: pointer;
+}
+.md-dialog-content md-input-container {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+.publisher-selector {
+  /* Force the size and margin of the publisher
+   in the Publication dialog */
+  height: 54px;
+  margin-top: 16px;
+}
+.reference-export table {
+  width: 100%;
+  padding: 24px 48px;
+}
+.reference-export td {
+  padding: 8px 0px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.reference-export td.reference-number {
+  padding-right: 12px;
+  vertical-align: top;
+  text-align: left;
+}
+.reference-export td.error {
+  color: red;
+}
