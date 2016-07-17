@@ -1,4 +1,4 @@
-export default class AuthService {
+class AuthService {
 
   constructor($http) {
     this.$http = $http;
@@ -38,3 +38,6 @@ export default class AuthService {
   }
 
 }
+
+AuthService.$inject = ['$http'];
+export default AuthService;

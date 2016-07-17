@@ -1,4 +1,4 @@
-export default class ReferenceExportController {
+class ReferenceExportController {
 
   constructor($mdDialog, init) {
     this.$mdDialog = $mdDialog;
@@ -10,3 +10,6 @@ export default class ReferenceExportController {
   }
 
 }
+
+ReferenceExportController.$inject = ['$mdDialog', 'init'];
+export default ReferenceExportController;

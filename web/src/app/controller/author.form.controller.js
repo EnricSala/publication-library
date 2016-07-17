@@ -1,4 +1,4 @@
-export default class AuthorFormController {
+class AuthorFormController {
 
   constructor($mdDialog, Authors, init, readonly) {
     this.$mdDialog = $mdDialog;
@@ -28,3 +28,6 @@ export default class AuthorFormController {
   }
 
 }
+
+AuthorFormController.$inject = ['$mdDialog', 'Authors', 'init', 'readonly'];
+export default AuthorFormController;

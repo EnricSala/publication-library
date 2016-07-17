@@ -1,4 +1,4 @@
-export default class PublicationsService {
+class PublicationsService {
 
   constructor($q, $resource, Authors, Publishers) {
     this.$q = $q;
@@ -104,3 +104,6 @@ export default class PublicationsService {
   }
 
 }
+
+PublicationsService.$inject = ['$q', '$resource', 'Authors', 'Publishers'];
+export default PublicationsService;

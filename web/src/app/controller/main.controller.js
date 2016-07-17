@@ -1,7 +1,7 @@
 import LoginFormController from './login.form.controller.js';
 import LoginFormTemplate from '../view/login.dialog.html';
 
-export default class MainController {
+class MainController {
 
   constructor($location, $mdDialog, Auth) {
     this.$location = $location;
@@ -31,3 +31,6 @@ export default class MainController {
   }
 
 }
+
+MainController.$inject = ['$location', '$mdDialog', 'Auth'];
+export default MainController;

@@ -10,7 +10,7 @@ import PublisherDialog from '../view/publisher.dialog.html';
 import ReferenceExportController from './reference.export.controller.js';
 import ReferenceExportDialog from '../view/reference.export.dialog.html';
 
-export default class PublicationsController {
+class PublicationsController {
 
   constructor($mdDialog, Auth, Publications, Authors, Publishers) {
     this.$mdDialog = $mdDialog;
@@ -243,3 +243,8 @@ export default class PublicationsController {
   }
 
 }
+
+PublicationsController.$inject = [
+  '$mdDialog', 'Auth', 'Publications', 'Authors', 'Publishers'
+];
+export default PublicationsController;

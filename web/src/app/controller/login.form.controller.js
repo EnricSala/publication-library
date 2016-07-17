@@ -1,4 +1,4 @@
-export default class LoginFormController {
+class LoginFormController {
 
   constructor($mdDialog, Auth) {
     this.$mdDialog = $mdDialog;
@@ -26,3 +26,6 @@ export default class LoginFormController {
   }
 
 }
+
+LoginFormController.$inject = ['$mdDialog', 'Auth'];
+export default LoginFormController;

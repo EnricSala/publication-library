@@ -1,4 +1,4 @@
-export default class StatsService {
+class StatsService {
 
   constructor($http) {
     this.$http = $http;
@@ -13,3 +13,6 @@ export default class StatsService {
   }
 
 }
+
+StatsService.$inject = ['$http'];
+export default StatsService;

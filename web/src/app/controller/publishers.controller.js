@@ -1,7 +1,10 @@
-export default class PublishersController {
+class PublishersController {
 
   constructor() {
 
   }
 
 }
+
+PublishersController.$inject = [];
+export default PublishersController;
