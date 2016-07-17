@@ -12,6 +12,7 @@ import AuthService from './service/auth.service.js';
 import PublicationsService from './service/publications.service.js';
 import AuthorsService from './service/authors.service.js';
 import PublishersService from './service/publishers.service.js';
+import SummaryService from './service/summary.service.js';
 
 import 'angular-material/angular-material.min.css';
 import 'angularjs-slider/dist/rzslider.min.css';
@@ -41,6 +42,7 @@ angular
   .service('Auth', AuthService)
   .service('Publications', PublicationsService)
   .service('Authors', AuthorsService)
-  .service('Publishers', PublishersService);
+  .service('Publishers', PublishersService)
+  .service('Summary', SummaryService);
 
 export default MODULE_NAME;

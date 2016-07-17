@@ -10,14 +10,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthorSummary {
 
-	private String authorId;
-	private Map<String, List<Count>> counts;
+	private final String authorId;
+	private final Map<String, List<Count>> counts;
 
 	@Data
 	@AllArgsConstructor
 	public static class Count {
-		private int pos;
-		private int count;
+		private final int pos;
+		private final int count;
 	}
 
 }
