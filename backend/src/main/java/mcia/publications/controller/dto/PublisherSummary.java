@@ -2,14 +2,13 @@ package mcia.publications.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Map;
+import mcia.publications.domain.Publisher;
 
 @Data
 @AllArgsConstructor
 public class PublisherSummary {
 
-	private final String type;
-	private final Map<String, Integer> counts;
+	private Publisher publisher;
+	private int count;
 
 }

@@ -20,6 +20,7 @@ import rx.observables.GroupedObservable;
 
 import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
@@ -50,7 +51,7 @@ public class SummaryController {
 	}
 
 	@RequestMapping(value = "/publishers", method = RequestMethod.GET)
-	public Observable<List<PublisherSummary>> publishers() {
+	public Observable<Map<String, List<PublisherSummary>>> publishers() {
 		log.info("GET: summary publishers");
 		return Observable
 				.from(publications.findAll())
@@ -59,16 +60,16 @@ public class SummaryController {
 					Publisher publisher = publishers.findOne(byId.getKey());
 					return byId
 							.count()
-							.map(c -> new PublisherOccurrences(publisher, c));
+							.map(c -> new PublisherSummary(publisher, c));
 				})
 				.groupBy(pocc -> pocc.getPublisher().getType())
 				.flatMap(byType -> {
 					String type = byType.getKey();
 					return byType
-							.toMap(pocc -> pocc.getPublisher().getId(), pocc -> pocc.getCount())
-							.map(counts -> new PublisherSummary(type, counts));
+							.toSortedList((c1, c2) -> c2.getCount() - c1.getCount())
+							.map(counts -> new AbstractMap.SimpleEntry<>(type, counts));
 				})
-				.toList();
+				.toMap(Entry::getKey, Entry::getValue);
 	}
 
 	private Observable<AuthorContribution> toContributions(Publication publication) {
@@ -81,7 +82,8 @@ public class SummaryController {
 				.map(id -> new AuthorContribution(id.getValue(), type, id.getIndex()));
 	}
 
-	private Observable<Entry<String, List<Count>>> countByType(GroupedObservable<String, AuthorContribution> byType) {
+	private Observable<Entry<String, List<Count>>> countByType(
+			GroupedObservable<String, AuthorContribution> byType) {
 		return byType
 				.groupBy(AuthorContribution::getPosition)
 				.flatMap(byPosition -> Observable
@@ -97,13 +99,6 @@ public class SummaryController {
 		private String authorId;
 		private String type;
 		private int position;
-	}
-
-	@Data
-	@AllArgsConstructor
-	private static class PublisherOccurrences {
-		private Publisher publisher;
-		private int count;
 	}
 
 }
