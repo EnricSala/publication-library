@@ -1,1 +1,40 @@
-<h1>Publishers</h1>
+<md-content class="md-padding" flex layout="column" layout-align="start center">
+
+  <div flex="70">
+
+    <!-- Journals -->
+    <h3 class="md-headline">Journals</h3>
+    <md-card ng-repeat="(idx, item) in vm.journals">
+      <md-card-title>
+        <md-card-title-text style="margin: 0px 20px;">
+          <span class="md-headline">{{ item.publisher.fullname }}</span>
+          <span class="md-subhead">{{ item.publisher.acronym }}</span>
+        </md-card-title-text>
+      </md-card-title>
+    </md-card>
+
+    <!-- Conferences -->
+    <h3 class="md-headline">Journals</h3>
+    <md-card ng-repeat="(idx, item) in vm.conferences">
+      <md-card-title>
+        <md-card-title-text style="margin: 0px 20px;">
+          <span class="md-headline">{{ item.publisher.fullname }}</span>
+          <span class="md-subhead">{{ item.publisher.acronym }}</span>
+        </md-card-title-text>
+      </md-card-title>
+    </md-card>
+
+    <!-- Books -->
+    <h3 class="md-headline">Book publishers</h3>
+    <md-card ng-repeat="(idx, item) in vm.books">
+      <md-card-title>
+        <md-card-title-text style="margin: 0px 20px;">
+          <span class="md-headline">{{ item.publisher.fullname }}</span>
+          <span class="md-subhead">{{ item.publisher.acronym }}</span>
+        </md-card-title-text>
+      </md-card-title>
+    </md-card>
+
+  </div>
+
+</md-content>
