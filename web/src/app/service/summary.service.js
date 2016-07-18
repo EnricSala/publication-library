@@ -5,19 +5,17 @@ class SummaryService {
   }
 
   authors() {
-    return this.$http.post('/api/summary/authors')
-      .then(
-        data => console.log(`Loaded authors summary: ${JSON.stringify(data)}`),
-        err => console.log(`Error loading authors summary: ${err}`)
-      );
+    return this.$http.get('/api/summary/authors').then(
+      res => res.data,
+      err => console.log(`Error loading authors summary: ${err}`)
+    );
   }
 
   publishers() {
-    return this.$http.post('/api/summary/publishers')
-      .then(
-        data => console.log(`Loaded publishers summary: ${JSON.stringify(data)}`),
-        err => console.log(`Error loading publishers summary: ${err}`)
-      );
+    return this.$http.get('/api/summary/publishers').then(
+      res => res.data,
+      err => console.log(`Error loading publishers summary: ${err}`)
+    );
   }
 
 }
