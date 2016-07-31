@@ -1,42 +1,36 @@
 package mcia.publications.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mcia.publications.domain.Author;
 import mcia.publications.repository.AuthorRepository;
+import org.springframework.web.bind.annotation.*;
 import rx.Observable;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/authors")
+@RequiredArgsConstructor
 @Slf4j
 public class AuthorController {
 
-	@Autowired
-	AuthorRepository authorRepository;
+	private final AuthorRepository authorRepository;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping
 	public Observable<List<Author>> getAll() {
 		log.info("GET: all authors");
 		return Observable.from(authorRepository.findAll()).toList();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping("/{id}")
 	public Author getById(@PathVariable String id) {
 		log.info("GET: author by id={}", id);
 		return authorRepository.findOne(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PostMapping
 	public Author post(@RequestBody @Valid Author author) {
 		log.info("POST: {}", author);
 		Author saved = null;
@@ -49,7 +43,7 @@ public class AuthorController {
 		return saved;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@PutMapping
 	public Author put(@RequestBody @Valid Author author) {
 		log.info("PUT: {}", author);
 		Author saved = null;
@@ -66,8 +60,8 @@ public class AuthorController {
 		return saved;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deletebyId(@PathVariable String id) {
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable String id) {
 		log.info("DELETE: author by id={}", id);
 		authorRepository.delete(id);
 	}

@@ -1,42 +1,36 @@
 package mcia.publications.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mcia.publications.domain.Publisher;
 import mcia.publications.repository.PublisherRepository;
+import org.springframework.web.bind.annotation.*;
 import rx.Observable;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/publishers")
+@AllArgsConstructor
 @Slf4j
 public class PublisherController {
 
-	@Autowired
-	PublisherRepository publisherRepository;
+	private final PublisherRepository publisherRepository;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping
 	public Observable<List<Publisher>> getAll() {
 		log.info("GET: all publishers");
 		return Observable.from(publisherRepository.findAll()).toList();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping("/{id}")
 	public Publisher getById(@PathVariable String id) {
 		log.info("GET: publisher by id={}", id);
 		return publisherRepository.findOne(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PostMapping
 	public Publisher post(@RequestBody @Valid Publisher publisher) {
 		log.info("POST: {}", publisher);
 		Publisher saved = null;
@@ -49,7 +43,7 @@ public class PublisherController {
 		return saved;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@PutMapping
 	public Publisher put(@RequestBody @Valid Publisher publisher) {
 		Publisher saved = null;
 		log.info("PUT: {}", publisher);
@@ -66,8 +60,8 @@ public class PublisherController {
 		return saved;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deletebyId(@PathVariable String id) {
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable String id) {
 		log.info("DELETE: publisher by id={}", id);
 		publisherRepository.delete(id);
 	}

@@ -1,5 +1,23 @@
 package mcia.publications.controller;
 
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import mcia.publications.domain.Author;
+import mcia.publications.domain.Publication;
+import mcia.publications.domain.Publisher;
+import mcia.publications.repository.AuthorRepository;
+import mcia.publications.repository.PublicationRepository;
+import mcia.publications.repository.PublisherRepository;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import rx.Observable;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,29 +27,8 @@ import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-import lombok.extern.slf4j.Slf4j;
-import mcia.publications.domain.Author;
-import mcia.publications.domain.Publication;
-import mcia.publications.domain.Publisher;
-import mcia.publications.repository.AuthorRepository;
-import mcia.publications.repository.PublicationRepository;
-import mcia.publications.repository.PublisherRepository;
-import rx.Observable;
-
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class BackupController implements InitializingBean {
 
@@ -40,16 +37,11 @@ public class BackupController implements InitializingBean {
 	private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm";
 	private static final String FILE_NAME = "backup_publication_library.zip";
 
-	@Autowired
-	PublicationRepository publicationRepository;
-
-	@Autowired
-	AuthorRepository authorRepository;
-
-	@Autowired
-	PublisherRepository publisherRepository;
-
 	private static final ObjectMapper mapper = new ObjectMapper();
+
+	private final PublicationRepository publicationRepository;
+	private final AuthorRepository authorRepository;
+	private final PublisherRepository publisherRepository;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -57,7 +49,7 @@ public class BackupController implements InitializingBean {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 
-	@RequestMapping(value = "/backup", method = RequestMethod.GET)
+	@GetMapping("/backup")
 	public void downloadBackup(TimeZone timezone, HttpServletResponse response) {
 		log.info("Preparing full backup...");
 
@@ -81,6 +73,7 @@ public class BackupController implements InitializingBean {
 		SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
 		format.setTimeZone(timezone);
 		String dateStr = format.format(new Date());
+		log.debug("Formatting date for: {}, result: {}", timezone.getDisplayName(), dateStr);
 		return String.format(DISPOSITION_TEMPLATE, dateStr, FILE_NAME);
 	}
 

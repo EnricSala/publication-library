@@ -2,6 +2,7 @@ package mcia.publications.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mcia.publications.controller.dto.AuthorSummary;
 import mcia.publications.controller.dto.AuthorSummary.Count;
@@ -11,9 +12,8 @@ import mcia.publications.domain.Publication;
 import mcia.publications.domain.Publisher;
 import mcia.publications.repository.PublicationRepository;
 import mcia.publications.repository.PublisherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import rx.Observable;
 import rx.observables.GroupedObservable;
@@ -26,16 +26,14 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api/summary")
+@RequiredArgsConstructor
 @Slf4j
 public class SummaryController {
 
-	@Autowired
-	PublicationRepository publications;
+	private final PublicationRepository publications;
+	private final PublisherRepository publishers;
 
-	@Autowired
-	PublisherRepository publishers;
-
-	@RequestMapping(value = "/authors", method = RequestMethod.GET)
+	@GetMapping("/authors")
 	public Observable<List<AuthorSummary>> authors() {
 		log.info("GET: summary authors");
 		return Observable
@@ -50,7 +48,7 @@ public class SummaryController {
 				.toList();
 	}
 
-	@RequestMapping(value = "/publishers", method = RequestMethod.GET)
+	@GetMapping("/publishers")
 	public Observable<Map<String, List<PublisherSummary>>> publishers() {
 		log.info("GET: summary publishers");
 		return Observable

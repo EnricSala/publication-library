@@ -1,7 +1,7 @@
 package mcia.publications.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -10,7 +10,7 @@ import java.security.Principal;
 @Slf4j
 public class UserController {
 
-	@RequestMapping("/user")
+	@GetMapping("/user")
 	public Principal user(Principal user) {
 		String name = (user != null) ? user.getName() : "anonymous";
 		log.info("GET: user {}", name);
