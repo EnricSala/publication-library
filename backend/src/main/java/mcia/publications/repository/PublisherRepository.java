@@ -1,13 +1,12 @@
 package mcia.publications.repository;
 
-import java.util.List;
-
+import mcia.publications.domain.Publisher;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import mcia.publications.domain.Publisher;
+import java.util.List;
 
 public interface PublisherRepository extends PagingAndSortingRepository<Publisher, String> {
 
-	public List<Publisher> findByType(String type);
+	List<Publisher> findByType(String type);
 
 }
