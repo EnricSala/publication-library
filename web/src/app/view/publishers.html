@@ -1,39 +1,48 @@
-<md-content class="md-padding" flex layout="column" layout-align="start center">
+<md-content id="content" flex layout="column" layout-align="start center">
 
   <div flex="70">
 
     <!-- Journals -->
-    <h3 class="md-headline">Journals</h3>
-    <md-card ng-repeat="(idx, item) in vm.journals">
-      <md-card-title>
-        <md-card-title-text style="margin: 0px 20px;">
-          <span class="md-headline">{{ item.publisher.fullname }}</span>
-          <span class="md-subhead">{{ item.publisher.acronym }}</span>
-        </md-card-title-text>
-      </md-card-title>
-    </md-card>
+    <div ng-if="vm.journals" class="publisher-card">
+      <h1 class="md-headline">Journals</h1>
+      <md-card ng-repeat="(idx, item) in vm.journals">
+        <md-card-title layout="row" layout-align="start center">
+          <span class="md-display-1 circled">{{ item.count }}</span>
+          <md-card-title-text style="margin: 0px 20px;">
+            <span class="md-headline">{{ item.publisher.fullname }}</span>
+            <span class="md-title">{{ item.publisher.acronym }}</span>
+          </md-card-title-text>
+        </md-card-title>
+      </md-card>
+    </div>
 
     <!-- Conferences -->
-    <h3 class="md-headline">Journals</h3>
-    <md-card ng-repeat="(idx, item) in vm.conferences">
-      <md-card-title>
-        <md-card-title-text style="margin: 0px 20px;">
-          <span class="md-headline">{{ item.publisher.fullname }}</span>
-          <span class="md-subhead">{{ item.publisher.acronym }}</span>
-        </md-card-title-text>
-      </md-card-title>
-    </md-card>
+    <div ng-if="vm.conferences" class="publisher-card">
+      <h1 class="md-headline">Conferences</h1>
+      <md-card ng-repeat="(idx, item) in vm.conferences">
+        <md-card-title layout="row" layout-align="start center">
+          <span class="md-display-1 circled">{{ item.count }}</span>
+          <md-card-title-text style="margin: 0px 20px;">
+            <span class="md-headline">{{ item.publisher.fullname }}</span>
+            <span class="md-title">{{ item.publisher.acronym }}</span>
+          </md-card-title-text>
+        </md-card-title>
+      </md-card>
+    </div>
 
     <!-- Books -->
-    <h3 class="md-headline">Book publishers</h3>
-    <md-card ng-repeat="(idx, item) in vm.books">
-      <md-card-title>
-        <md-card-title-text style="margin: 0px 20px;">
-          <span class="md-headline">{{ item.publisher.fullname }}</span>
-          <span class="md-subhead">{{ item.publisher.acronym }}</span>
-        </md-card-title-text>
-      </md-card-title>
-    </md-card>
+    <div ng-if="vm.books" class="publisher-card">
+      <h1 class="md-headline">Book Publishers</h1>
+      <md-card ng-repeat="(idx, item) in vm.books">
+        <md-card-title layout="row" layout-align="start center">
+          <span class="md-display-1 circled">{{ item.count }}</span>
+          <md-card-title-text style="margin: 0px 20px;">
+            <span class="md-headline">{{ item.publisher.fullname }}</span>
+            <span class="md-title">{{ item.publisher.acronym }}</span>
+          </md-card-title-text>
+        </md-card-title>
+      </md-card>
+    </div>
 
   </div>
 

@@ -1,11 +1,24 @@
+/*
+* Main window & navigation
+*/
+
 #app-logo {
   width: 45px;
   height: 45px;
   margin-right: 16px;
 }
+#content {
+  /* Set backgroud to light gray */
+  background-color: rgb(245, 245, 245);
+}
 .nav-location {
   font-weight: bold;
 }
+
+/*
+* Publications view
+*/
+
 .author-search md-input-container {
   margin: 32px 40px 0px 30px;
 }
@@ -20,10 +33,6 @@
 }
 .selected-author {
   background-color: rgba(63, 81, 181, 0.2);
-}
-#content {
-  /* Set publication backgroud to light gray  */
-  background-color: rgb(245, 245, 245);
 }
 #search-form {
   margin-bottom: 12px;
@@ -89,4 +98,38 @@
 }
 .reference-export td.error {
   color: red;
+}
+
+/*
+* Publishers view
+*/
+
+.publisher-card {
+  padding: 4px 24px;
+}
+.publisher-card md-card-title {
+  padding: 16px 16px;
+}
+.publisher-card h1 {
+  font-size: 26px;
+  text-align: center;
+  font-style: italic;
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+.publisher-card .md-headline {
+  font-size: 24px;
+}
+.publisher-card .md-title {
+  font-size: 20px;
+  font-weight: normal;
+}
+.circled {
+  border-radius: 100px;
+  background: rgba(63, 81, 181, 0.5);
+  color: white;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
 }
