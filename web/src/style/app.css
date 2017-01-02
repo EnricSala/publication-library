@@ -133,3 +133,30 @@
   line-height: 60px;
   text-align: center;
 }
+
+/*
+* Authors view
+*/
+
+.author-summary md-card-title {
+  padding: 16px;
+}
+.author-summary md-card-title-media {
+  margin: 0px;
+}
+.author-summary md-card-title-media .md-media-md {
+  width: 80px;
+  height: 80px;
+}
+.author-summary md-card-title-media img {
+  border-radius: 50%;
+}
+.author-summary md-card-title-text {
+  margin: 0px 24px;
+}
+.author-summary md-card-title-text span {
+  margin: 8px 0px;
+}
+.author-summary md-card-title-text div {
+  margin: 0px 0px;
+}

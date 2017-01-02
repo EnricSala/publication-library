@@ -1,17 +1,18 @@
-<md-content class="md-padding" flex layout="column" layout-align="start center">
+<md-content id="content" flex layout="column" layout-align="start center">
 
-  <div flex="70">
-    <md-card ng-repeat="(idx, author) in vm.authors" flex>
+  <div flex="70" class="author-summary">
+    <md-card ng-repeat="item in vm.list | orderBy: '-score' track by $index" flex>
       <md-card-title>
         <md-card-title-media>
-          <div class="md-media-md card-media">
-            <img ng-src="{{ vm.author.photo }}" style="border-radius: 50%;"/>
+          <div class="md-media-md">
+            <img ng-src="{{ item.author.photo }}"/>
           </div>
         </md-card-title-media>
-        <md-card-title-text style="margin: 0px 20px;">
-          <span class="md-headline">{{ vm.author.name }}</span>
-          <span class="md-subhead">{{ vm.author.points }}</span>
-          <uib-progressbar value="vm.author.points" max="vm.maxPoints"></uib-progressbar>
+        <md-card-title-text>
+          <span class="md-headline">{{ item.author.fullname }}</span>
+          <uib-progress max="vm.maxScore">
+            <uib-bar ng-repeat="bar in item.scoreByType" value="bar.score" type="{{ bar.type }}"></uib-bar>
+          </uib-progress>
         </md-card-title-text>
       </md-card-title>
     </md-card>
