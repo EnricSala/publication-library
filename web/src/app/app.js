@@ -14,6 +14,7 @@ import AuthorsService from './service/authors.service.js';
 import PublishersService from './service/publishers.service.js';
 import SummaryService from './service/summary.service.js';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-material/angular-material.min.css';
 import 'angularjs-slider/dist/rzslider.min.css';
 import '../style/app.css';
