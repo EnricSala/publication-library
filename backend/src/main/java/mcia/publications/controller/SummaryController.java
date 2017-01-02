@@ -10,6 +10,7 @@ import mcia.publications.controller.dto.Indexed;
 import mcia.publications.controller.dto.PublisherSummary;
 import mcia.publications.domain.Publication;
 import mcia.publications.domain.Publisher;
+import mcia.publications.repository.AuthorRepository;
 import mcia.publications.repository.PublicationRepository;
 import mcia.publications.repository.PublisherRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ import java.util.stream.IntStream;
 public class SummaryController {
 
 	private final PublicationRepository publications;
+	private final AuthorRepository authors;
 	private final PublisherRepository publishers;
 
 	@GetMapping("/authors")
@@ -44,7 +46,8 @@ public class SummaryController {
 						.groupBy(AuthorContribution::getType)
 						.flatMap(this::countByType)
 						.toMap(Entry::getKey, Entry::getValue)
-						.map(map -> new AuthorSummary(byAuthor.getKey(), map)))
+						.map(counts -> new AuthorSummary(
+								authors.findOne(byAuthor.getKey()), counts)))
 				.toList();
 	}
 
