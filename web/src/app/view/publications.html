@@ -27,7 +27,7 @@
       </form>
     </div>
     <md-list class="author-list">
-      <md-list-item ng-repeat="author in vm.authors | filter:{fullname: vm.authorFilter} | orderBy:'fullname'" ng-click="vm.selectAuthor(author)" ng-class="author.id === vm.query.author ? 'selected-author' : ''">
+      <md-list-item ng-repeat="author in vm.authors | filter:{fullname: vm.authorFilter, status: 'member'} | orderBy:'fullname'" ng-click="vm.selectAuthor(author)" ng-class="author.id === vm.query.author ? 'selected-author' : ''">
         <img alt="{{ author.fullname }}" ng-src="{{ author.photo }}" class="md-avatar"/>
         <p>{{ author.fullname }}</p>
       </md-list-item>

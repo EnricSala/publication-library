@@ -32,7 +32,17 @@
             <label>Photo URL</label>
             <input ng-model="vm.author.photo" ng-model-options="{debounce: 1200}">
           </md-input-container>
+
+          <!-- Status field -->
+          <md-input-container class="md-block">
+            <label>Status</label>
+            <md-select ng-model="vm.author.status">
+              <md-option value="member">Member</md-option>
+              <md-option value="external">External collaborator</md-option>
+            </md-select>
+          </md-input-container>
         </div>
+
       </div>
     </md-dialog-content>
 

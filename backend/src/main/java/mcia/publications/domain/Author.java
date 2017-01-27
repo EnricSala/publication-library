@@ -1,12 +1,11 @@
 package mcia.publications.domain;
 
-import javax.validation.constraints.Size;
-
+import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import javax.validation.constraints.Size;
 
 @Data
 @Document
@@ -25,5 +24,9 @@ public class Author {
 	@NotEmpty
 	@Size(max = 200)
 	private String photo;
+
+	@NotEmpty
+	@Size(max = 20)
+	private String status;
 
 }
