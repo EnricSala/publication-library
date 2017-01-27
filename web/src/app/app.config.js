@@ -7,7 +7,7 @@ import PublishersController from './controller/publishers.controller.js';
 /*
  * Application routing
  */
-function routing($routeProvider) {
+function routing($routeProvider, $locationProvider) {
   $routeProvider
     .when('/publications', {
       template: require('./view/publications.html'),
@@ -25,8 +25,11 @@ function routing($routeProvider) {
       controllerAs: 'vm'
     })
     .otherwise({ redirectTo: '/publications' });
+
+  // Use HTML5 navigation mode
+  $locationProvider.html5Mode(true);
 }
-routing.$inject = ['$routeProvider'];
+routing.$inject = ['$routeProvider', '$locationProvider'];
 
 /*
  * Theming configuration for Material AngularJS
