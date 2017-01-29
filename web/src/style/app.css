@@ -82,9 +82,8 @@
   height: 54px;
   margin-top: 16px;
 }
-.reference-export table {
-  width: 100%;
-  padding: 24px 48px;
+.reference-export {
+  padding: 24px 64px 24px 48px;
 }
 .reference-export td {
   padding: 8px 0px;
