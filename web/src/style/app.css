@@ -138,25 +138,27 @@
 * Authors view
 */
 
-.author-summary md-card-title {
-  padding: 16px;
+.author-summary {
+  margin: 18px 0px;
 }
-.author-summary md-card-title-media {
-  margin: 0px;
-}
-.author-summary md-card-title-media .md-media-md {
-  width: 80px;
-  height: 80px;
-}
-.author-summary md-card-title-media img {
+.author-summary md-whiteframe {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
   border-radius: 50%;
 }
-.author-summary md-card-title-text {
-  margin: 0px 24px;
+.author-summary .author-display {
+  padding: 16px 0px;
 }
-.author-summary md-card-title-text span {
-  margin: 8px 0px;
+.author-summary .md-media-md {
+  width: 120px;
+  height: 120px;
 }
-.author-summary md-card-title-text div {
-  margin: 0px 0px;
+.author-summary .md-media-md img {
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+}
+.author-summary span {
+  text-align: center;
 }

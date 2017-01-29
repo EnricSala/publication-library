@@ -1,6 +1,11 @@
+import AuthorFormController from './author.form.controller.js';
+import AuthorDialog from '../view/author.dialog.html';
+
 class AuthorsController {
 
-  constructor(Summary) {
+  constructor($mdDialog, Auth, Summary) {
+    this.$mdDialog = $mdDialog;
+    this.Auth = Auth;
     this.Summary = Summary;
     this.init();
   }
@@ -48,7 +53,25 @@ class AuthorsController {
     }
   }
 
+  showAuthorDialog(ev, author) {
+    console.log('Open author dialog');
+    this.handleResourceDialog(ev, author, AuthorFormController, AuthorDialog);
+  }
+
+  handleResourceDialog(ev, item, controller, template) {
+    return this.$mdDialog.show({
+      template: template,
+      controller: controller,
+      controllerAs: 'vm',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      fullscreen: true,
+      locals: { init: item, readonly: !this.Auth.authenticated }
+    });
+  }
+
 }
 
-AuthorsController.$inject = ['Summary'];
+AuthorsController.$inject = ['$mdDialog', 'Auth', 'Summary'];
 export default AuthorsController;
