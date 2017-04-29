@@ -33,31 +33,29 @@ public class PublisherController {
 	@PostMapping
 	public Publisher post(@RequestBody @Valid Publisher publisher) {
 		log.info("POST: {}", publisher);
-		Publisher saved = null;
 		if (publisher.getId() != null) {
 			throw new RuntimeException("insert of new publisher must not provide an id");
 		} else {
-			saved = publisherRepository.save(publisher);
+			Publisher saved = publisherRepository.save(publisher);
 			log.info("Created publisher id={}, acronym={}", saved.getId(), saved.getAcronym());
+			return saved;
 		}
-		return saved;
 	}
 
 	@PutMapping
 	public Publisher put(@RequestBody @Valid Publisher publisher) {
-		Publisher saved = null;
 		log.info("PUT: {}", publisher);
 		if (publisher.getId() != null) {
 			if (publisherRepository.exists(publisher.getId())) {
-				saved = publisherRepository.save(publisher);
+				Publisher saved = publisherRepository.save(publisher);
 				log.info("Updated publisher id={}, acronym={}", saved.getId(), saved.getAcronym());
+				return saved;
 			} else {
 				throw new RuntimeException("cannot update publisher with unknown id=" + publisher.getId());
 			}
 		} else {
 			throw new RuntimeException("cannot update publisher with undefined id");
 		}
-		return saved;
 	}
 
 	@DeleteMapping("/{id}")

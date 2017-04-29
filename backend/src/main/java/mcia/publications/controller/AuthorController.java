@@ -33,31 +33,29 @@ public class AuthorController {
 	@PostMapping
 	public Author post(@RequestBody @Valid Author author) {
 		log.info("POST: {}", author);
-		Author saved = null;
 		if (author.getId() != null) {
 			throw new RuntimeException("insert of new author must not provide an id");
 		} else {
-			saved = authorRepository.save(author);
+			Author saved = authorRepository.save(author);
 			log.info("Created author id={}, fullname={}", saved.getId(), saved.getFullname());
+			return saved;
 		}
-		return saved;
 	}
 
 	@PutMapping
 	public Author put(@RequestBody @Valid Author author) {
 		log.info("PUT: {}", author);
-		Author saved = null;
 		if (author.getId() != null) {
 			if (authorRepository.exists(author.getId())) {
-				saved = authorRepository.save(author);
+				Author saved = authorRepository.save(author);
 				log.info("Updated publication id={}, fullname={}", saved.getId(), saved.getFullname());
+				return saved;
 			} else {
 				throw new RuntimeException("cannot update author with unknown id=" + author.getId());
 			}
 		} else {
 			throw new RuntimeException("cannot update author with undefined id");
 		}
-		return saved;
 	}
 
 	@DeleteMapping("/{id}")

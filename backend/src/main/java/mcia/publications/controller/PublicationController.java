@@ -92,31 +92,29 @@ public class PublicationController {
 	@PostMapping
 	public Publication post(@RequestBody @Valid Publication publication) {
 		log.info("POST: {}", publication);
-		Publication saved = null;
 		if (publication.getId() != null) {
 			throw new RuntimeException("insert of new publication must not provide an id");
 		} else {
-			saved = publicationRepository.save(publication);
+			Publication saved = publicationRepository.save(publication);
 			log.info("Created publication id={}, title={}", saved.getId(), saved.getTitle());
+			return saved;
 		}
-		return saved;
 	}
 
 	@PutMapping
 	public Publication put(@RequestBody @Valid Publication publication) {
 		log.info("PUT: {}", publication);
-		Publication saved = null;
 		if (publication.getId() != null) {
 			if (publicationRepository.exists(publication.getId())) {
-				saved = publicationRepository.save(publication);
+				Publication saved = publicationRepository.save(publication);
 				log.info("Updated publication id={}, title={}", saved.getId(), saved.getTitle());
+				return saved;
 			} else {
 				throw new RuntimeException("cannot update publication with unknown id=" + publication.getId());
 			}
 		} else {
 			throw new RuntimeException("cannot update publication with undefined id");
 		}
-		return saved;
 	}
 
 	@DeleteMapping("/{id}")
