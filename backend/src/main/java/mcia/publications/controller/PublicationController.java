@@ -31,14 +31,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PublicationController {
 
-	private static final int PAGE_SIZE = 10;
-	private static final String AFTER = "1990";
-	private static final String BEFORE = "3000";
-	private static final SimpleDateFormat yearFmt = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+	private static final SimpleDateFormat yearFmt =
+			new SimpleDateFormat("yyyy", Locale.ENGLISH);
 
-	private static final Order SCORE_ORDER = new Order(Direction.DESC, "score");
-	private static final Order DATE_ORDER = new Order(Direction.DESC, "publishDate");
-	private static final Sort SORT = new Sort(SCORE_ORDER, DATE_ORDER);
+	private static final Sort SORT = new Sort(
+			new Order(Direction.DESC, "score"),
+			new Order(Direction.DESC, "publishDate"));
 
 	private final PublicationRepository publicationRepository;
 	private final PublisherRepository publisherRepository;
@@ -48,17 +46,19 @@ public class PublicationController {
 			@RequestParam(name = "q", defaultValue = "") String query,
 			@RequestParam(name = "author", defaultValue = "") String author,
 			@RequestParam(name = "type", defaultValue = "all") String type,
-			@RequestParam(name = "after", defaultValue = AFTER) Integer after,
-			@RequestParam(name = "before", defaultValue = BEFORE) Integer before,
-			@RequestParam(name = "page", defaultValue = "0") @Min(0) Integer page) throws ParseException {
-		log.info("GET: publications page={}, q={}, author={}, type={}, after={}, before={}",
-				page, query, author, type, after, before);
+			@RequestParam(name = "after", defaultValue = "1990") Integer after,
+			@RequestParam(name = "before", defaultValue = "3000") Integer before,
+			@RequestParam(name = "page", defaultValue = "0") @Min(0) Integer page,
+			@RequestParam(name = "size", defaultValue = "10") @Min(10) Integer size) throws ParseException {
+
+		log.info("GET: publications q={}, author={}, type={}, after={}, before={}, page={}, size={}",
+				query, author, type, after, before, page, size);
 
 		// Fetch publishers matching type
 		List<String> publisherIds;
 		if (!type.equalsIgnoreCase("all")) {
-			List<Publisher> publishers = publisherRepository.findByType(type);
-			publisherIds = publishers.stream().map(Publisher::getId).collect(Collectors.toList());
+			publisherIds = publisherRepository.findByType(type)
+					.stream().map(Publisher::getId).collect(Collectors.toList());
 			log.debug("Found {} publishers matching type={}", publisherIds.size(), type);
 		} else {
 			publisherIds = Collections.emptyList();
@@ -72,13 +72,10 @@ public class PublicationController {
 		Date beforeDate = yearFmt.parse(Integer.toString(before + 1));
 
 		// Run search
-		Pageable pageable = new PageRequest(page, PAGE_SIZE, SORT);
-		Page<Publication> result;
-		if (query.isEmpty()) {
-			result = publicationRepository.search(authorId, publisherIds, afterDate, beforeDate, pageable);
-		} else {
-			result = publicationRepository.search(query, authorId, publisherIds, afterDate, beforeDate, pageable);
-		}
+		Pageable pageable = new PageRequest(page, size, SORT);
+		Page<Publication> result = query.isEmpty() ?
+				publicationRepository.search(authorId, publisherIds, afterDate, beforeDate, pageable) :
+				publicationRepository.search(query, authorId, publisherIds, afterDate, beforeDate, pageable);
 		log.info("Matched {} elements in {} pages", result.getTotalElements(), result.getTotalPages());
 		return PageableResult.from(result);
 	}
