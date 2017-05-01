@@ -79,6 +79,11 @@ class PublicationsController {
       icon: "/img/icon/file-export.svg",
       visible: () => true,
       onClick: ev => this.downloadReferences(ev)
+    }, {
+      name: "Download Backup",
+      icon: "/img/icon/download.svg",
+      visible: () => this.Auth.authenticated,
+      onClick: ev => this.downloadBackup(ev)
     }];
   }
 
@@ -232,6 +237,14 @@ class PublicationsController {
       const content = references.join('\n');
       filesaver.saveAs(new File([content], filename, properties));
     });
+  }
+
+  /*
+   * Download backup
+   */
+  downloadBackup(ev) {
+    console.log('Clicked download backup');
+    window.open('/api/backup');
   }
 
   /*
