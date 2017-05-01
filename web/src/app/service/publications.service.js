@@ -50,6 +50,14 @@ class PublicationsService {
     return this.runQuery(query).then(list => this.wireUp(list));
   }
 
+  searchReferences(query) {
+    const fullQuery = angular.copy(query);
+    fullQuery.page = 0;
+    fullQuery.size = 10000;
+    return this.runQuery(fullQuery)
+      .then(list => list.map(it => it.reference));
+  }
+
   save(publication) {
     // Convert publisher and author list to ids
     publication.publisherId = publication.publisher ? publication.publisher.id : null;
@@ -74,7 +82,8 @@ class PublicationsService {
         type: angular.lowercase(params.type),
         after: params.after,
         before: params.before,
-        page: params.page
+        page: params.page,
+        size: params.size
       }).$promise
       .then(res => {
         console.log(`Search returned: ${JSON.stringify(res.$metadata)}`);

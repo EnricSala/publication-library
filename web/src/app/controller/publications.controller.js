@@ -10,6 +10,8 @@ import PublisherDialog from '../view/publisher.dialog.html';
 import ReferenceExportController from './reference.export.controller.js';
 import ReferenceExportDialog from '../view/reference.export.dialog.html';
 
+import filesaver from 'file-saver';
+
 class PublicationsController {
 
   constructor($mdDialog, Auth, Publications, Authors, Publishers) {
@@ -30,7 +32,8 @@ class PublicationsController {
       type: this.publicationTypes[0],
       after: 1990,
       before: new Date().getFullYear(),
-      page: 0
+      page: 0,
+      size: 10
     };
     this.authorFilter = '';
     this.isMenuOpen = false;
@@ -72,10 +75,10 @@ class PublicationsController {
       visible: () => this.Auth.authenticated,
       onClick: ev => this.showPublisherDialog(ev)
     }, {
-      name: "Export Publications",
+      name: "Export References",
       icon: "/img/icon/file-export.svg",
       visible: () => true,
-      onClick: ev => this.showReferenceExportDialog(ev, this.publications)
+      onClick: ev => this.downloadReferences(ev)
     }];
   }
 
@@ -214,6 +217,20 @@ class PublicationsController {
       clickOutsideToClose: false,
       fullscreen: true,
       locals: { init: publications }
+    });
+  }
+
+  /*
+   * Download references in a file
+   */
+  downloadReferences(ev) {
+    console.log('Clicked download references');
+    const properties = { type: "text/plain;charset=utf-8" };
+    const filename = "references.txt";
+    this.Publications.searchReferences(this.query).then(references => {
+      console.log(`Downloading ${references.length} matching references`);
+      const content = references.join('\n');
+      filesaver.saveAs(new File([content], filename, properties));
     });
   }
 
