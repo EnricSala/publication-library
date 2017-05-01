@@ -15,6 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import rx.Observable;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Controller
+@RequestMapping("/api/backup")
 @RequiredArgsConstructor
 @Slf4j
 public class BackupController implements InitializingBean {
@@ -49,7 +51,7 @@ public class BackupController implements InitializingBean {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 
-	@GetMapping("/backup")
+	@GetMapping
 	public void downloadBackup(TimeZone timezone, HttpServletResponse response) {
 		log.info("Preparing full backup...");
 
