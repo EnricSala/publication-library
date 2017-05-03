@@ -7,10 +7,8 @@ import mcia.publications.domain.Publication;
 import mcia.publications.domain.Publisher;
 import mcia.publications.repository.PublicationRepository;
 import mcia.publications.repository.PublisherRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -60,6 +55,10 @@ public class PublicationController {
 			publisherIds = publisherRepository.findByType(type)
 					.stream().map(Publisher::getId).collect(Collectors.toList());
 			log.debug("Found {} publishers matching type={}", publisherIds.size(), type);
+			if (publisherIds.isEmpty()) {
+				log.info("Matched 0 elements because no publishers are type={}", type);
+				return PageableResult.empty();
+			}
 		} else {
 			publisherIds = Collections.emptyList();
 		}
