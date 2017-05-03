@@ -28,7 +28,7 @@
           </md-input-container>
 
           <!-- Photo field -->
-          <md-input-container class="md-block">
+          <md-input-container ng-hide="vm.readonly" class="md-block">
             <label>Photo URL</label>
             <input ng-model="vm.author.photo" ng-model-options="{debounce: 1200}">
           </md-input-container>
