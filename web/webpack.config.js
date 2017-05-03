@@ -202,8 +202,7 @@ module.exports = function makeWebpackConfig() {
       "/api/*": "http://localhost:8081",
       "/photos/*": "http://localhost:8081",
       "/login": "http://localhost:8081",
-      "/logout": "http://localhost:8081",
-      "/backup": "http://localhost:8081"
+      "/logout": "http://localhost:8081"
     }
   };
 
