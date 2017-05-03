@@ -137,8 +137,12 @@
 * Authors view
 */
 
-.author-summary {
-  margin: 18px 0px;
+.author-summary h1 {
+  font-size: 30px;
+  text-align: center;
+  font-style: italic;
+  margin-top: 46px;
+  margin-bottom: 32px;
 }
 .author-summary md-whiteframe {
   width: 120px;
@@ -160,4 +164,10 @@
 }
 .author-summary span {
   text-align: center;
+}
+.author-summary .member-authors {
+  margin-bottom: 16px;
+}
+.author-summary .external-authors {
+  margin-bottom: 50px;
 }

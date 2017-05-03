@@ -3,53 +3,28 @@ import AuthorDialog from '../view/author.dialog.html';
 
 class AuthorsController {
 
-  constructor($mdDialog, Auth, Summary) {
+  constructor($mdDialog, Auth, Authors) {
     this.$mdDialog = $mdDialog;
     this.Auth = Auth;
-    this.Summary = Summary;
+    this.Authors = Authors;
     this.init();
   }
 
   init() {
-    this.Summary.authors()
-      .then(list => {
-        const { scored, maxVal } = calcScores(list);
-        this.list = scored;
-        this.maxScore = maxVal;
+    this.Authors.findAll()
+      .then(list => this.authors = addSortAndShowName(list));
+
+    function addSortAndShowName(authors) {
+      return authors.map(it => {
+        const fullname = it.fullname;
+        const parts = fullname.split(' ').filter(it => it.length > 1);
+        const sortIdx = parts.length < 4 ?
+          Math.min(parts.length - 1, 1) : 2;
+        it.sortname = parts.slice(sortIdx).join(' ');
+        it.showname = parts.slice(sortIdx).join(' ') +
+          ', ' + parts.slice(0, sortIdx).join(' ');
+        return it;
       });
-
-    function calcScores(authors) {
-      const scored = authors
-        .map(it => {
-          const { score, byType } = toScore(it.contributions);
-          it.score = score;
-          it.scoreByType = byType;
-          return it;
-        });
-      const maxVal = scored
-        .map(it => it.score)
-        .reduce((acc, it) => it > acc ? it : acc, 0);
-      return { scored, maxVal };
-    }
-
-    function toScore(contributions) {
-      const journalScore = scoreByType(contributions.journal);
-      const conferenceScore = scoreByType(contributions.conference);
-      const bookScore = scoreByType(contributions.book);
-      return {
-        score: journalScore + conferenceScore + bookScore,
-        byType: [
-          { name: 'journal', score: journalScore, type: 'success' },
-          { name: 'conference', score: conferenceScore, type: 'info' },
-          { name: 'book', score: bookScore, type: 'warning' }
-        ]
-      };
-    }
-
-    function scoreByType(byType) {
-      return (byType || [])
-        .map(it => it.count * 1 / it.pos)
-        .reduce((acc, it) => acc + it, 0);
     }
   }
 
@@ -73,5 +48,5 @@ class AuthorsController {
 
 }
 
-AuthorsController.$inject = ['$mdDialog', 'Auth', 'Summary'];
+AuthorsController.$inject = ['$mdDialog', 'Auth', 'Authors'];
 export default AuthorsController;
