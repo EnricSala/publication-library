@@ -14,7 +14,9 @@ import filesaver from 'file-saver';
 
 class PublicationsController {
 
-  constructor($mdDialog, Auth, Publications, Authors, Publishers) {
+  constructor($scope, $timeout, $mdDialog, Auth, Publications, Authors, Publishers) {
+    this.$scope = $scope;
+    this.$timeout = $timeout;
     this.$mdDialog = $mdDialog;
     this.Auth = Auth;
     this.Publications = Publications;
@@ -57,6 +59,7 @@ class PublicationsController {
       hideLimitLabels: true,
       onEnd: () => this.doNewSearch()
     };
+    this.$timeout(() => this.$scope.$broadcast('rzSliderForceRender'));
 
     //  Configure FAV buttons
     this.menuItems = [{
@@ -275,6 +278,7 @@ class PublicationsController {
 }
 
 PublicationsController.$inject = [
-  '$mdDialog', 'Auth', 'Publications', 'Authors', 'Publishers'
+  '$scope', '$timeout', '$mdDialog',
+  'Auth', 'Publications', 'Authors', 'Publishers'
 ];
 export default PublicationsController;
