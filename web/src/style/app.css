@@ -72,6 +72,10 @@
 .publication md-card-title-text .md-subhead {
   cursor: pointer;
 }
+.md-contact-suggestion img {
+  /* Fix offset of the autocomplete author image */
+  margin-top: -32px;
+}
 .md-dialog-content md-input-container {
   margin-top: 9px;
   margin-bottom: 9px;
