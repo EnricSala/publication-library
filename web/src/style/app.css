@@ -8,8 +8,8 @@
   margin-right: 16px;
 }
 #content {
-  /* Set backgroud to light gray */
   background-color: rgb(245, 245, 245);
+  overflow-y: scroll;
 }
 .nav-location {
   font-weight: bold;
